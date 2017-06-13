@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>百田网</title>
+    <link type="text/css" href="http://www.100bt.com/resource/style/css.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="http://mycwww.100bt.com/desktop/pja_weblogin/deploy/style/index.css">
+    <script type="text/javascript" src="http://www.100bt.com/resource/js/lib/jquery-mig-min.js"></script>
+    <script src="http://mycwww.100bt.com/desktop/pja_weblogin/deploy/index.js"></script>
+</head>
+<body>
+<div id="pageRoot"></div>
+<script type="text/javascript">
+  let qs=btWebLogin.util.qs.getSearchQuery(location.href);
+  btWebLogin.init({
+    mode:"page",//用页面方式展示页面
+    gameName:qs.gameName,
+    action:qs.action,
+    root:"#pageRoot"//不写的话就在body初始化
+  });
+</script>
+</body>
+</html>

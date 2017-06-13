@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏页面</title>
+</head>
+<body>
+    <div>
+        游戏页面
+    </div>
+    <script type="text/javascript">
+    var allnew=true,quickLogin=true,logined=true;
+    if(allnew){
+        location.href="login.html?gameName=aoya&action=register"
+    }else if(quickLogin){
+        location.href="login.html?gameName=aoya&action=quicklogin"
+    }else if(logined){
+        console.log("游戏登陆");
+    }
+    </script>
+</body>
+</html>
