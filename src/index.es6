@@ -1,6 +1,6 @@
-import pageModeContainer from './script/manager/page.es6';
+let pageModeContainer =require('./script/manager/page.es6');
 
-import util from './script/util.es6';
+let util =require('./script/util.es6');
 
 
 function resolveGameNameToConfig(gameName) {
@@ -21,8 +21,9 @@ function init(option) {
     mode,
     gameName
   } = option;
-
+  window.__option=option;
   queryGameData(gameName).then((data) => {
+    window.__gameConfig=data;
     if (mode == "page") {
       pageModeContainer.init(data,option);
     } else {
@@ -30,7 +31,7 @@ function init(option) {
     }
   })
 }
-export {
+module.exports= {
   init,
   util
 }

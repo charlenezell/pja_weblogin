@@ -1,12 +1,15 @@
 {
+  "name":"奥雅之光",
   "gameName":"小奥雅",
   "boxTopImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bt.png",
   "boxBottomImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bb.png",
   "boxRepeatImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bb.png",
   "bgImgUrl":"http://resource.a0bi.com/marketnew/aoqi/src/scss/img_s/indexBgw.jpg",
   "mainColor":"red",
-  "qqbtnUrl":"http://localhost:3000/redirect.html",
-  "gameUrl":"http://aoya.100bt.com/play.html",
   "forgetUrl":"http://account.9aoduo.com/getbackpwd/getBackPwd.action?action=toinput",
-  "checkgameNameRequest":"http://login.aoya.100bt.com/userQuery.jsonp"
+  "checkgameNameRequest":"http://login.aoya.100bt.com/userQuery.jsonp",
+  "gameCallbackUrl":"http://aoya.100bt.com/play.html",
+  "registerSuccessDescription":"奥雅官网：aoya.100bt.com",
+  "serviceProtocoUrl":"http://aola.100bt.com/play/website/tos6.html",
+  "promiseUrl":"http://aola.100bt.com/play/website/tos9.html"
 }

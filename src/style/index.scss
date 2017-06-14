@@ -5,25 +5,53 @@
 /*
 views:login,qqlogin,quicklogin,register,tab
 */
-.autologinCheckbox{
+.prefillItem{
+  text-align: left;
+}
+.checkboxItem{
   cursor:pointer;
   &--on{
     color:red;
   }
 }
-.fieldItem01{
+.formlo01{
+  @include clearfix;
+  &__l{float: left;width:80px;text-align: right;line-height: 30px;min-height: 1px;}
+  &__r{float: left;width:300px;height:30px;}
+  margin-bottom: 10px;
+}
+.fieldItem01,.codeItem{
   &__input{
     input{
-      width:100%;
-      height:100%;
+      height:30px;
       display: block;
+      line-height: 30px;
+      width:100%;
+      display: block;
+      border:1px solid;
       &:focus{
         outline: none;
       }
     }
     &--error input{
       border:1px solid red;
-    }
+      color:red;
+      background-color: #ffe9e9;    }
+  }
+}
+.codeItem{
+  &__input input{
+    width:55%;
+    float: left;
+    text-align: left;
+  }
+  &__img{
+    float: left;
+    width:20%;
+  }
+  &__changeBtn{
+    float: left;
+    width:20%;
   }
 }
 .tabView{
@@ -61,3 +89,10 @@ manager:page,pop
 /*
 mix: views in manager style
 */
+.type_page_container{
+  .oauthQQFrame{
+    width: 450px;
+    height: 370px;
+    border: 0;
+  }
+}
