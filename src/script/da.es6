@@ -12,13 +12,17 @@ module.exports={
   login:function(duoduoId,password,autologin,gameId,code){
     let d=$.Deferred();
     console.log(duoduoId,password,autologin,gameId,code);
-    d.resolve();
+    d.resolve({
+      code:0
+    });
     return d.promise();
   },
   loginToken:function(duoduoId,token,gameId){
     let d=$.Deferred();
     console.log(duoduoId,token,gameId);
-    d.resolve();
+    d.resolve({
+      code:0
+    });
     return d.promise();
   },
   checkGameName:function(url,name){

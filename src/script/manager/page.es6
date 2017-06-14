@@ -1,23 +1,25 @@
-let v_tab =require('../views/tab.es6');
-let v_login =require('../views/login.es6');
-let v_loginName =require('../views/loginName.es6');
-let v_qqlogin =require('../views/qqlogin.es6');
-let v_quicklogin =require('../views/quicklogin.es6');
-let v_qqloginbtn =require('../views/qqloginbtn.es6');
-let v_register =require('../views/register.es6');
-let v_fieldItem =require('../views/fieldItem01.es6');
-let v_codeItem =require('../views/codeitem.es6');
-let v_checkbox =require('../views/checkboxItem.es6');
-let v_registerSuccess =require('../views/registerSuccess.es6');
-let prefillItem =require('../views/prefillItem.es6');
+let v_tab = require('../views/tab.es6');
+let v_login = require('../views/login.es6');
+let v_loginName = require('../views/loginName.es6');
+let v_qqlogin = require('../views/qqlogin.es6');
+let v_quicklogin = require('../views/quicklogin.es6');
+let v_qqloginbtn = require('../views/qqloginbtn.es6');
+let v_register = require('../views/register.es6');
+let v_fieldItem = require('../views/fieldItem01.es6');
+let v_codeItem = require('../views/codeitem.es6');
+let v_checkbox = require('../views/checkboxItem.es6');
+let v_registerSuccess = require('../views/registerSuccess.es6');
+let prefillItem = require('../views/prefillItem.es6');
 let {
   st,
   ValidateItem,
   getActionByJudge
 } = require('../util.es6');
-let  {doValidate} =require ('../validate.es6');
-let  da =require ('../da.es6');
-let  env =require ('../env.es6');
+let {
+  doValidate
+} = require('../validate.es6');
+let da = require('../da.es6');
+let env = require('../env.es6');
 
 let root, ps = $({});
 let option;
@@ -25,7 +27,7 @@ let gameConfig;
 let vm = {};
 
 
-function pageAlert(data){
+function pageAlert(data) {
   alert(data);
 }
 
@@ -33,27 +35,28 @@ function goBackLoginSuccess(loginSuccessType) {
   if (option.gameName == "pja") {
 
   } else {
-    st("loginSuccess", loginSuccessType).then(function() {
-      location.href = gameConfig.gameCallbackUrl;
+    st("loginSuccess", loginSuccessType).then(function () {
+      // location.href = gameConfig.gameCallbackUrl;
+      console.log("jump back success");
     });
   }
 }
 
-ps.on("cDispatch", function(e, data) {
+ps.on("cDispatch", function (e, data) {
   if (data.type == "changeView") {
     vm.state = data.action;
     vm.tabIndex = data.index;
     renderView();
   } else if (data.type == "loginSuccess") {
     goBackLoginSuccess(data.loginSuccessType);
-  }else if (data.type=="changeValidState"){
-    vm.isValid=data.valid;
-  }else if(data.type=="registerSuccess"){
-    window.globalRegisterSuccessDuoDuoId=data.duoduoId;
-    window.globalRegisterSuccessPassword=data.password;
-    renderRegisterSuccessView(data.duoduoId,data.password);
-  }else if(data.type=="fieldItem01focus"){
-    if(data.id=="realName"||data.id=="idCard"){
+  } else if (data.type == "changeValidState") {
+    vm.isValid = data.valid;
+  } else if (data.type == "registerSuccess") {
+    window.globalRegisterSuccessDuoDuoId = data.duoduoId;
+    window.globalRegisterSuccessPassword = data.password;
+    renderRegisterSuccessView(data.duoduoId, data.password);
+  } else if (data.type == "fieldItem01focus") {
+    if (data.id == "realName" || data.id == "idCard") {
       prefillItem.changeState(data.id);
     }
   }
@@ -71,7 +74,7 @@ function init(_gameConfig, _option) {
     </td></tr></table>`);
   root = $(".type_page_container__box");
   //可以直接初始化对应的界面，不传action时候为智能判断模式
-  let curAction=option.action||getActionByJudge();
+  let curAction = option.action || getActionByJudge();
   ps.trigger("cDispatch", {
     action: curAction,
     type: "changeView",
@@ -81,14 +84,19 @@ function init(_gameConfig, _option) {
 
 function renderView() {
   if (vm.state == "register") {
+    st("intoRegister");
     renderRegisterView();
   } else if (vm.state == "login") {
+    st("intoLogin");
     renderLoginView();
   } else if (vm.state == "loginName") {
+    st("intoLoginName");
     renderLoginNameView();
   } else if (vm.state == "quicklogin") {
+    st("intoQuickLogin");
     renderQuickLoginView();
-  } else if (vm.state=="qqlogin"){
+  } else if (vm.state == "qqlogin") {
+    st("intoQQLogin");
     renderQQLoginView();
   }
 }
@@ -117,18 +125,28 @@ function renderTabView() {
 /*EventBinding*/
 
 function bindTab() {
-  v_tab.bind(root,{ps});
+  v_tab.bind(root, {
+    ps
+  });
 }
 
 function bindQQLoginBtn() {
-  v_qqloginbtn.bind(root,{ps});
+  v_qqloginbtn.bind(root, {
+    ps
+  });
 }
 
 
 
 function bindInputEvent() {
-  v_fieldItem.bind(root,{ps,doValidate})
-  v_codeItem.bind(root,{ps,doValidate})
+  v_fieldItem.bind(root, {
+    ps,
+    doValidate
+  })
+  v_codeItem.bind(root, {
+    ps,
+    doValidate
+  })
 }
 
 function bindRegisterView() {
@@ -138,7 +156,7 @@ function bindRegisterView() {
   prefillItem.bind(root);
   v_checkbox.bind(root);
   let form = root.find("form");
-  form.submit(function(e) {
+  form.submit(function (e) {
     $(".fieldItem01__input input ,.codeItem__input input").blur();
     e.preventDefault();
     if (vm.isValid) {
@@ -146,37 +164,39 @@ function bindRegisterView() {
       $.each(form.serializeArray(), (k, v) => {
         postData[v.name] = v.value;
       });
-      if(postData.serviceProtocoCheck=="false"){
+      if (postData.serviceProtocoCheck == "false") {
         pageAlert("请同意用户服务协议");
         return false;
       }
-      if(postData.promiseCheck=="false"){
+      if (postData.promiseCheck == "false") {
         pageAlert("请同意拒绝沉迷承诺书");
         return false;
       }
-        da.register(postData.password, postData.autologin, postData.name,postData.id,postData.code).done((data)=>{
-             if(data.code==0){
-              ps.trigger("cDispatch",{
-                type:"registerSuccess",
-                duoduoId:data.duoduoId,
-                password:data.password
-              })
-             }
-        });
+      da.register(postData.password, postData.autologin, postData.name, postData.id, postData.code).done((data) => {
+        if (data.code == 0) {
+          ps.trigger("cDispatch", {
+            type: "registerSuccess",
+            duoduoId: data.duoduoId,
+            password: data.password
+          })
+        }
+      });
 
     }
   });
 }
-function bindqqloginView(){
+
+function bindqqloginView() {
   bindTab();
 }
+
 function bindLoginView() {
   bindTab();
   bindQQLoginBtn();
   bindInputEvent();
   v_checkbox.bind(root);
   let form = root.find("form");
-  form.submit(function(e) {
+  form.submit(function (e) {
     $(".fieldItem01__input input ,.codeItem__input input").blur();
     e.preventDefault();
     if (vm.isValid) {
@@ -184,13 +204,22 @@ function bindLoginView() {
       $.each(form.serializeArray(), (k, v) => {
         postData[v.name] = v.value;
       });
-      da.login(postData.duoduoid, postData.password, postData.autologin,window.__option.gameName,postData.code);
+      da.login(postData.duoduoid, postData.password, postData.autologin, window.__option.gameName, postData.code).done(data => {
+        if (data.code == 0) {
+          ps.trigger("cDispatch", {
+            type: "loginSuccess",
+            loginSuccessType: "login"
+          });
+        }
+      });
     }
   });
 }
 
 function bindQuickLoginView() {
-  v_quicklogin.bind(root,{ps});
+  v_quicklogin.bind(root, {
+    ps
+  });
 }
 
 function bindLoginNameView() {
@@ -199,7 +228,7 @@ function bindLoginNameView() {
   bindInputEvent();
   v_checkbox.bind(root);
   let form = root.find("form");
-  form.submit(function(e) {
+  form.submit(function (e) {
     $(".fieldItem01__input input ,.codeItem__input input").blur();
     e.preventDefault();
     if (vm.isValid) {
@@ -207,11 +236,18 @@ function bindLoginNameView() {
       $.each(form.serializeArray(), (k, v) => {
         postData[v.name] = v.value;
       });
-      da.checkGameName(gameConfig.checkgameNameRequest, postData.gameName).done(function(data) {
+      da.checkGameName(gameConfig.checkgameNameRequest, postData.gameName).done(function (data) {
         if (data.returnCode != 0) {
           pageAlert(data.returnDetail);
         } else {
-          da.login(data.duoduoId, postData.password, postData.autologin,window.__option.gameName,postData.code);
+          da.login(data.duoduoId, postData.password, postData.autologin, window.__option.gameName, postData.code).done(data => {
+            if (data.code == 0) {
+              ps.trigger("cDispatch", {
+                type: "loginSuccess",
+                loginSuccessType: "loginName"
+              });
+            }
+          });;
         }
       });
     }
@@ -220,7 +256,7 @@ function bindLoginNameView() {
 
 /*PanelRender*/
 function renderRegisterView() {
-  da.checkRealNameNeeded().then(data=>{
+  da.checkRealNameNeeded().then(data => {
     root.html(`
       ${renderTabView()}
       ${v_register.render({qqUrl:gameConfig.qqbtnUrl,ps,needRealName:data.need})}
@@ -231,19 +267,19 @@ function renderRegisterView() {
 
 
 function renderLoginView() {
-  da.checkCodeNeeded().then(data=>{
-  root.html(`
+  da.checkCodeNeeded().then(data => {
+    root.html(`
     ${renderTabView()}
     <div class="type_page_container__content">
     ${v_login.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:data.need,ps})}
     </div>
   `)
-  bindLoginView();
+    bindLoginView();
   });
 }
 
 function renderLoginNameView() {
-  da.checkCodeNeeded().then(data=>{
+  da.checkCodeNeeded().then(data => {
     root.html(`
       ${renderTabView()}
       <div class="type_page_container__content">
@@ -254,7 +290,7 @@ function renderLoginNameView() {
   });
 }
 
-function renderQQLoginView(){
+function renderQQLoginView() {
   root.html(`
    ${renderTabView()}
    <div class="type_page_container__content">
@@ -272,14 +308,17 @@ function renderQuickLoginView() {
 }
 
 
-function renderRegisterSuccessView(duoduoId,password) {//先做注册页面回来再集成注册成功
+function renderRegisterSuccessView(duoduoId, password) { //先做注册页面回来再集成注册成功
   root.html(`
     ${renderTabView()}
     <div class="type_page_container__content">
       ${v_registerSuccess.render(duoduoId,password)}
     </div>
-  `)
+  `);
+  v_registerSuccess.bind(root,{ps});
 }
 
 
-module.exports={init}
+module.exports = {
+  init
+}

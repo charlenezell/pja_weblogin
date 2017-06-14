@@ -1,13 +1,21 @@
-module.exports={
-  render: function({
+module.exports = {
+  render: function ({
     url
   }) {
     return `
           <div class="qqloginRow">无需注册第三方登陆:<a href="${url}" class="qqloginBtn">qq登陆</a></div>
         `
   },
-  bind: function(root,{ps}) {
-    root.find(".qqloginBtn").on("click", function(e) {
+  bind: function (root, {
+    ps
+  }) {
+    window.qqloginCallback = function () {
+      ps.trigger("cDispatch", {
+        type: "loginSuccess",
+        loginSuccessType: "qqlogin"
+      });
+    }
+    root.find(".qqloginBtn").on("click", function (e) {
       e.preventDefault();
       ps.trigger("cDispatch", {
         action: "qqlogin",

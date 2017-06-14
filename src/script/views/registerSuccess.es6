@@ -29,8 +29,12 @@ module.exports={
       </div>
     `
   },
-  bind: function(root) {
-
-
+  bind: function(root,{ps}) {
+    root.find(".registerSuccessView__loginbtn").click(function(){
+      ps.trigger("cDispatch",{
+        type:"loginSuccess",
+        loginSuccessType:"register"
+      })
+    });
   }
 }
