@@ -11,7 +11,7 @@ module.exports={
         ${fieldItem.render(
           {cname:"多多号:",name:"duoduoid",tips:"请输入多多号",rule:"l_duoduoid"})}
         ${fieldItem.render(
-          {cname:"密码:",name:"password",tips:"请输入密码",rule:"l_password"})}
+          {cname:"密码:",name:"password",tips:"请输入密码",rule:"l_password",isPassword:true})}
         ${codeItem.render(
           {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code",hide:needCode?false:true,id:"validCode"})}
         <div class="formlo01">

@@ -11,9 +11,9 @@ module.exports= {
         ${thirdpartyloginbtns.render({url:qqUrl})}
         <form id="registerForm">
         ${fieldItem.render(
-          {cname:"密码:",name:"gameName",tips:"请输入6-16位的密码",rule:"r_password",id:"r_password"})}
+          {cname:"密码:",name:"gameName",tips:"请输入6-16位的密码",rule:"r_password",id:"r_password",noautocomplete:true,isPassword:true})}
         ${fieldItem.render(
-          {cname:"重复密码:",name:"password",tips:"请再次输入你的密码",rule:"r_password2",target:"#r_password"})}
+          {cname:"重复密码:",name:"password",tips:"请再次输入你的密码",rule:"r_password2",target:"#r_password",noautocomplete:true,isPassword:true})}
         ${(function(){
           if(needRealName){
             return `${fieldItem.render(

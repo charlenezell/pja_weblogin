@@ -1,9 +1,7 @@
 module.exports = {
-  render: function ({
-    url
-  }) {
+  render: function () {
     return `
-          <div class="qqloginRow">无需注册第三方登陆:<a href="${url}" class="qqloginBtn" title="qq登陆"></a></div>
+          <div class="qqloginRow">无需注册第三方登陆:<span class="qqloginBtn" title="qq登陆"></span></div>
         `
   },
   bind: function (root, {

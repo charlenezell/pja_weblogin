@@ -5,7 +5,7 @@ module.exports= {
         return `
           <div class="codeItem formlo01" style="${hide?'display:none':''}" id="${id}">
             <div class="codeItem__label formlo01__l">${cname}</div>
-            <div class="codeItem__input formlo01__r"><input type="text" name="${name}" placeholder="${tips}" data-validaterule="${rule}"/><img src="${da.getImgSrc()}" alt="" class="codeItem__img"/><span href="" class="codeItem__changeBtn">换一张</span></div>
+            <div class="codeItem__input formlo01__r"><input type="text" name="${name}" placeholder="${tips}" data-validaterule="${rule}" autocomplete="off"/><img src="${da.getImgSrc()}" alt="" class="codeItem__img" title="看不清,换一个"/><span href="" class="codeItem__changeBtn">换一张</span></div>
           </div>
         `
     },

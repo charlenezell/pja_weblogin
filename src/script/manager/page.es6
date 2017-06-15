@@ -46,6 +46,7 @@ function pageAlert(data) {
 }
 
 function goBackLoginSuccess(loginSuccessType) {
+  // 登陆成功后的出口
   if (option.gameName == "pja") {
 
   } else {
@@ -57,6 +58,7 @@ function goBackLoginSuccess(loginSuccessType) {
 }
 
 ps.on("cDispatch", function (e, data) {
+  // 事件的调度
   if (data.type == "changeView") {
     vm.state = data.action;
     vm.tabIndex = data.index;
@@ -73,10 +75,13 @@ ps.on("cDispatch", function (e, data) {
     if (data.id == "realName" || data.id == "idCard") {
       prefillItem.changeState(data.id);
     }
+  }else if(data.type=="commonAlert"){
+    pageAlert(data.content);
   }
 });
 
 function injectGameJSONStyle(){
+  //游戏json配置的页面注入样式，仅写入必要的样式
 $('head').append(`
 <style>
   #pageRoot{
@@ -126,7 +131,9 @@ $('head').append(`
 }
 
 function injectGameCustomStyle(){
-
+  if(__gameConfig.customStyleUrl){
+    $(`<link rel="stylesheet" href="${__gameConfig.customStyleUrl}" />`).appendTo("head");
+  }
 }
 
 /*入口*/
@@ -158,7 +165,7 @@ function init(_gameConfig, _option) {
           <a target="_blank" href="http://aoyi.100bt.com/" class="relativeGameItem relativeGameItem--aoyi"></a>
         </div>
         <div class="relativeGame__r">
-          <div class="relativeGameItem relativeGameItem--pja"></div>
+          <a  target="_blank" href="http://www.100bt.com/" class="relativeGameItem relativeGameItem--pja"></a>
         </div>
       </div>
       `)
@@ -190,6 +197,10 @@ function renderView() {
     st("intoQQLogin");
     renderQQLoginView();
   }
+  $(".type_page_container__box").removeClass("type_page_container__box--move");
+  setTimeout(function(){
+    $(".type_page_container__box").addClass("type_page_container__box--move");
+  },0);
 }
 
 function renderTabView() {
@@ -217,7 +228,7 @@ function renderTabView() {
   `
 }
 
-/*EventBinding*/
+/*相应tab的事件绑定操作，主要是胶合所有控件的绑定事件，一些view的通用事件响应会在自己内部实现*/
 
 function bindTab() {
   v_tab.bind(root, {
@@ -230,8 +241,6 @@ function bind3rdpartyLoginBtn() {
     ps
   });
 }
-
-
 
 function bindInputEvent() {
   v_fieldItem.bind(root, {
@@ -352,7 +361,9 @@ function bindLoginNameView() {
   });
 }
 
-/*PanelRender*/
+
+// 渲染tab内容方法（和上面的事件绑定对应使用）
+
 
 function renderRegisterView() {
   da.checkRealNameNeeded().then(data => {
@@ -426,7 +437,7 @@ function renderQuickLoginView() {
 }
 
 
-function renderRegisterSuccessView(duoduoId, password) { //先做注册页面回来再集成注册成功
+function renderRegisterSuccessView(duoduoId, password) {
   root.html(`
     ${renderTabView()}
     <div class="xExtendbg__body">

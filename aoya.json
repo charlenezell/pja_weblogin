@@ -20,6 +20,9 @@
   "btnloginnowImg":"http://localhost:3000/aoya/loginnow.png",
   "btnregister":"http://localhost:3000/aoya/register.png",
 
+  "customStyleUrl":"http://localhost:3000/aoya/css.css",
+
+
   "mainColor":"#9966cc",
   "forgetUrl":"http://account.9aoduo.com/getbackpwd/getBackPwd.action?action=toinput",
   "checkgameNameRequest":"http://login.aoya.100bt.com/userQuery.jsonp",

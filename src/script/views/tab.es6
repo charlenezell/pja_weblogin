@@ -4,7 +4,7 @@ module.exports={
           <div class="tabView">
           ${$.map(list,(v,k)=>{
             return `
-              <span class="tabView__item ${k==index?'tabView__item--on':''}" data-action="${v.action}" title="${v.name}"><span class="tabView__item__bg tabView__item__bg--${v.action}"></span></span>
+              <span class="tabView__item ${k==index?'tabView__item--on':''}" data-action="${v.action}"><span class="tabView__item__bg tabView__item__bg--${v.action}"></span></span>
             `
           }).join("")}
           </div>

@@ -1131,7 +1131,7 @@
 
 
 @mixin glasseffect01 {
-  @include unshiftClass(".csstransitions"){
+  @include unshiftClass(".btbuild_csstransitions"){
     overflow: hidden;
     position: relative;
     // {transition:500ms all ease;}

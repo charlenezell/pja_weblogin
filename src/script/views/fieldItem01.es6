@@ -1,10 +1,10 @@
 let {placeholder}=require("../util.es6");
 module.exports= {
-    render:function({cname,name,tips,rule,type,id="",target="",classname=""}){
+    render:function({cname,name,tips,rule,type,id="",target="",classname="",noautocomplete=false,isPassword=false}){
         return `
           <div class="fieldItem01 formlo01 ${classname?`fieldItem01--${classname}`:''}">
             <div class="fieldItem01__label formlo01__l">${cname}</div>
-            <div class="fieldItem01__input formlo01__r ${type?`fieldItem01__input--${type}`:'fieldItem01__input--long'}"><input type="text" name="${name}" id="${id}" data-fieldItem_pairtarget="${target}" placeholder="${tips}" data-validaterule="${rule}"/></div>
+            <div class="fieldItem01__input formlo01__r ${type?`fieldItem01__input--${type}`:'fieldItem01__input--long'}"><input type="${isPassword?'password':'text'}" name="${name}" id="${id}" data-fieldItem_pairtarget="${target}" placeholder="${tips}" data-validaterule="${rule}" ${noautocomplete?'autocomplete="off"':''}/></div>
           </div>
         `
     },
@@ -28,7 +28,14 @@ module.exports= {
         });
         if (!rst.status) {
           $(this).closest(".fieldItem01__input").addClass("fieldItem01__input--error");
-          $(this).val(rst.detail);
+          if($(this).is("input[type=password]")){
+            ps.trigger("cDispatch",{
+              type:"commonAlert",
+              content:rst.detail
+            });
+          }else{
+            $(this).val(rst.detail);
+          }
           ps.trigger("cDispatch", {
             type: "changeValidState",
             valid:false

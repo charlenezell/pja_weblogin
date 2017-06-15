@@ -9,7 +9,7 @@ import autoprefixer from "gulp-autoprefixer";
 import sass from "gulp-sass";
 import sourcemaps from "gulp-sourcemaps";
 import del from "del";
-// import path from 'path';
+import cleanCSS from 'gulp-clean-css';
 
 const destPath = "./deploy";
 const cssminConfig = {
@@ -38,27 +38,23 @@ export function resource() {
 }
 export function style() {
   var _pipe = gulp.src("./src/**/*.scss")
-    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init({
+      sourceRoot:"/src/style/"
+    }))
     .pipe(
       sass({
           includePaths: ['./src/style/lib/']
         }
-        /*{
-               sourcemap: needsassSourcemap,
-               emitCompileError: needEmittingSassError
-             }*/
-      )
+      ).on('error',sass.logError)
     )
     .pipe(autoprefixer({
       browsers: ['> 1%', 'IE 6-8']
-    }));
-
+    }))
+    .pipe(cleanCSS({compatibility: 'ie6'}));
   if (!process.env.prod) {
-    _pipe = _pipe.pipe(sourcemaps.write());
+    _pipe = _pipe.pipe(sourcemaps.write())
   }
-  // if (process.env.prod) {
-  //   _pipe = _pipe.pipe(cssmin(cssminConfig));
-  // }
+
 
   return _pipe.pipe(gulp.dest(destPath));
 }
