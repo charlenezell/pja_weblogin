@@ -265,21 +265,29 @@ cookie.support=(function(){
 })();
 
 module.exports.cookie=cookie;
+window.ccc=cookie;
+//后端历史cookie格式如下
+// gameId=4,gameName=奥雅之光,duoduoId=10014,token=xxx;gameId=4,gameName=奥雅之光,duoduoId=10013,token=xxx;gameId=2,gameName=奥拉星,duoduoId=10011,token=xxx
+
+//后端当前登录用户cookie格式如下
+//gameId=4,gameName=奥雅之光,duoduoId=10014,token=xxx,autoLogin=false,QQOpenId=xxx,QQNickName=xxx,QQGender=xxx,QQAvatarUrl=xxx
 
 function tokenStrToObj(v){
-  let pair=v.split("-")
-  return {
-    duoduoId:pair[0],
-    token:pair[1]
-  };
+  let kws=v.split(",");
+  let rst={}
+  $.each(kws,(k,v)=>{
+    let kw=v.split("=");
+    rst[kw[0]]=kw[1];
+  })
+  return rst;
 }
 
 let getHistoryList=function(){
   //这里会取出公共写的历史记录cookie,提取出前三个，同时如果有当前已成功登录的状态信息则合并进去历史记录里面
   //eg 历史是["duoduoId1-token1","duoduoId2","duoduoId3-token2"]
   //当前有登陆状态的是duoduoId1则不做处理，如果是duoduoId2的话就吧token传入快速登录的界面让该用户可以因为有登陆态而直接登陆（尽管用户没有勾选自动登录的选项）
-  let history=cookie("accounthistory");
-  let current=cookie("accountcurrent");
+  let history=cookie("his_auth_sid");
+  let current=cookie("web_auth_sid");
   if(!$.trim(history)){//没有历史应该也不会有当前登录态
       return false;
   }

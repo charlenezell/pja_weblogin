@@ -6,11 +6,18 @@ let da = require("../da.es6");
 module.exports = {
   render: function () {
     return `
+    <div class="quickLoginItemList">
         ${$.map(getHistoryList(),v=>{
+
           return `
-            <div class="quickLoginItem" data-token="${v.token}" data-duoduoid="${v.duoduoId}"><img src="" alt="" />${v.duoduoId}</div>
+            <span class="quickLoginItem quickLoginItem--${env.gameIdToGameName[v.gameId]}" data-token="${v.token}" data-duoduoid="${v.duoduoId}">
+              <span class="quickLoginItem__img"></span>
+              <span class="quickLoginItem__id">${v.duoduoId}</span>
+              <span class="quickLoginItem__game">在玩${v.gameName}</span>
+            </span>
           `
         }).join('')}
+        </div>
         <div class="quickloginBtm">
           <span class="quickloginBtm__registerbtn">注册新账号</span>|<span class="quickloginBtm__loginbtn">其他账号登陆</span>
         </div>

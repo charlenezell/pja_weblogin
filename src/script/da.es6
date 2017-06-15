@@ -12,8 +12,12 @@ module.exports={
   login:function(duoduoId,password,autologin,gameId,code){
     let d=$.Deferred();
     console.log(duoduoId,password,autologin,gameId,code);
+    // d.resolve({
+    //   code:0
+    // });
     d.resolve({
-      code:0
+      code:-1,
+      detail:"请输入正确验证码"
     });
     return d.promise();
   },
@@ -35,13 +39,13 @@ module.exports={
     });
     return d.promise();
   },
-  checkCodeNeeded:function(){
+  /*checkCodeNeeded:function(){
     let d=$.Deferred();
     d.resolve({
-      need:true
+      need:false
     });
     return d.promise();
-  },
+  },*/
   getImgSrc:function(){
     return `http://account.9aoduo.com/access/imgCodeGetter.action?v=${new Date - 0}`;
   }

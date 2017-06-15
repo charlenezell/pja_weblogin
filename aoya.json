@@ -1,11 +1,26 @@
 {
   "name":"奥雅之光",
   "gameName":"小奥雅",
-  "boxTopImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bt.png",
-  "boxBottomImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bb.png",
-  "boxRepeatImgUrl":"http://resource.a0bi.com/resource/js/plugins/actcommonbox/spritesrc/p8_h_sbn_aoya/bb.png",
-  "bgImgUrl":"http://resource.a0bi.com/marketnew/aoqi/src/scss/img_s/indexBgw.jpg",
-  "mainColor":"red",
+  "dataAppId":"123123123",
+
+  "boxTopImgUrl":"http://localhost:3000/aoya/box_t.png",
+  "boxBottomImgUrl":"http://localhost:3000/aoya/box_b.png",
+  "boxRepeatImgUrl":"http://localhost:3000/aoya/box_g.png",
+
+  "bgImgUrl":"http://localhost:3000/aoya/bg.png",
+
+  "tabloginImg":"http://localhost:3000/aoya/login.jpg",
+  "tabloginImg_on":"http://localhost:3000/aoya/login_h.jpg",
+  "tabloginNameImg":"http://localhost:3000/aoya/loginname.jpg",
+  "tabloginNameImg_on":"http://localhost:3000/aoya/loginname_h.jpg",
+  "tabregisterImg":"http://localhost:3000/aoya/register.jpg",
+  "tabregisterImg_on":"http://localhost:3000/aoya/register_h.jpg",
+
+  "btnloginImg":"http://localhost:3000/aoya/login.png",
+  "btnloginnowImg":"http://localhost:3000/aoya/loginnow.png",
+  "btnregister":"http://localhost:3000/aoya/register.png",
+
+  "mainColor":"#9966cc",
   "forgetUrl":"http://account.9aoduo.com/getbackpwd/getBackPwd.action?action=toinput",
   "checkgameNameRequest":"http://login.aoya.100bt.com/userQuery.jsonp",
   "gameCallbackUrl":"http://aoya.100bt.com/play.html",

@@ -1,96 +1,473 @@
 @charset "utf-8";
+
 @import "variables";
 @import "mixins";
+
+@mixin defaultBrighten {
+  &:hover {
+    filter: brightness(110%);
+  }
+}
 
 /*
 views:login,qqlogin,quicklogin,register,tab
 */
-.prefillItem{
-  text-align: left;
+.quickLoginHeader {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+  padding-top: 33px;
+  line-height: 47px;
 }
-.checkboxItem{
+
+
+
+.quickLoginItemList{
+  @include noinlinespace;
+  padding:20px 0;
+}
+.quickloginBtm__registerbtn,.quickloginBtm__loginbtn{
+  margin:0 5px;
+}
+.quickLoginItem {
   cursor:pointer;
-  &--on{
-    color:red;
+  font-size: 14px;
+  width: 96px;
+  border: 1px solid ;
+  border-color:#fff;
+  display: inline-block;
+  border-radius:10px;
+  padding: 8px 0;
+  margin:0 10px;
+  &:hover{
+    @include bgrgba(black, 0.05);
+    border-color:#ccc;
   }
-}
-.formlo01{
-  @include clearfix;
-  &__l{float: left;width:80px;text-align: right;line-height: 30px;min-height: 1px;}
-  &__r{float: left;width:300px;height:30px;}
-  margin-bottom: 10px;
-}
-.fieldItem01,.codeItem{
-  &__input{
-    input{
-      height:30px;
-      display: block;
-      line-height: 30px;
-      width:100%;
-      display: block;
-      border:1px solid;
-      &:focus{
-        outline: none;
-      }
+  &__game,&__id{
+    display: block;
+    @include toe;
+    line-height: 20px;
+  }
+  &__game{
+    color: #666;
+  }
+  &__img {
+    margin:0 auto 5px;
+    width:80px;
+    height:80px;
+    display: block;
+  }
+    &--aobi &__img{
+      background-image: url(images/ent_pja.png);
     }
-    &--error input{
-      border:1px solid red;
-      color:red;
-      background-color: #ffe9e9;    }
+
+    &--aola &__img{
+      background-image: url(images/ent_pja.png);
+    }
+
+    &--aoqi &__img{
+      background-image: url(images/ent_pja.png);
+    }
+
+    &--aoya &__img{
+      background-image: url(images/ent_pja.png);
+    }
+
+    &--aoyi &__img{
+      background-image: url(images/ent_pja.png);
+    }
+
+    &--lds &__img{
+      background-image: url(images/ent_pja.png);
+    }
+
+    &--pja &__img{
+      background-image: url(images/ent_pja.png);
+    }
+}
+
+.type_page_container__box__alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  &__ctn {
+    border: 0;
+  }
+
+  &__txt {
+    width: 330px;
+    margin: 0 auto;
+    padding: 20px 0;
+    color: #fff;
+
+    @include bgrgba(black, 0.6);
   }
 }
-.codeItem{
-  &__input input{
-    width:55%;
+
+.forgetlink {
+  vertical-align: middle;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.loginBtn, .registerBtn {
+  border: 0;
+  padding: 0;
+  display: block;
+  width: 110px;
+  height: 40px;
+  text-indent: -99999px;
+  cursor: pointer;
+  float: left;
+  margin-left: 5px;
+
+  @include defaultBrighten;
+}
+
+.xExtendbg {
+  &__head {
+    height: 80px;
+    overflow: hidden;
+    background-position: top center;
+    background-repeat: no-repeat;
+  }
+
+  &__body {
+    background-position: top center;
+    background-repeat: repeat-y;
+  }
+
+  &__foot {
+    margin-top: -40px;
+    height: 80px;
+    background-position: top center;
+    background-repeat: no-repeat;
+  }
+}
+
+.qqloginRow {
+  height: 54px;
+  line-height: 54px;
+  border-bottom: 1px solid #ccc;
+
+  .qqloginBtn {
+    background-image: url(images/qqlogin.png);
+    width: 100px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+
+    @include defaultBrighten;
+  }
+}
+
+.prefillItem {
+  text-align: left;
+  font-size: 12px;
+  line-height: 20px;
+  margin-left: 5px;
+
+  &--clickable {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.checkboxItem {
+  cursor: pointer;
+  color: #666;
+  margin-left: 5px;
+  font-size: 12px;
+
+  a {
+    color: #666;
+    text-decoration: underline;
+  }
+
+  &__word {
+    vertical-align: middle;
+  }
+
+  &__i {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/checkbox.png);
+  }
+
+  &--on &__i {
+    background-image: url(images/checkbox_h.png);
+  }
+
+  @include unshiftClass(".formlo01--registerbtnrow") {
+    margin-top: 10px;
+    float: left;
+    margin-left: 10px;
+  }
+}
+
+.formlo01 {
+  @include clearfix;
+
+  &__l {
+    float: left;
+    width: 110px;
+    text-align: right;
+    min-height: 1px;
+    _height: 1px;
+  }
+
+  &__r {
     float: left;
     text-align: left;
   }
-  &__img{
-    float: left;
-    width:20%;
-  }
-  &__changeBtn{
-    float: left;
-    width:20%;
+
+  margin-bottom: 10px;
+
+  &--prefillItem {
+    margin-bottom: 0;
   }
 }
-.tabView{
-  &__item{
-    display: inline-block;
-    cursor:pointer;
-    &--on{
-      background-color: red;
+
+.fieldItem01, .codeItem {
+  &__label {
+    color: #666;
+    font-weight: bold;
+    margin-right: 5px;
+    line-height: 36px;
+  }
+
+  &__input {
+    width: 200px;
+
+    input {
+      text-indent: 5px;
+      height: 34px;
+      display: block;
+      line-height: 34px;
+      width: 100%;
+      display: block;
+      border: 1px solid #ccc;
+      background-color: #EFEFEF;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &--error input {
+      border: 1px solid red;
+      color: red;
+      background-color: #ffe9e9;
     }
   }
 }
-.qqloginRow{
-  color: #666;
+
+.fieldItem01 {
+  &--special01 {
+    margin-bottom: 0;
+  }
 }
+
+.codeItem {
+  &__input {
+    position: relative;
+  }
+
+  &__input input {
+    width: 110px;
+    float: left;
+    text-align: left;
+  }
+
+  &__img {
+    float: left;
+    width: 70px;
+    height: 36px;
+    margin-left: 10px;
+  }
+
+  &__changeBtn {
+    position: absolute;
+    left: 110px + 70px + 10px + 5px;
+    line-height: 36px;
+
+    @include toe;
+
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.tabView {
+  @include noinlinespace;
+
+  margin-top: 34px;
+
+  &__item {
+    display: inline-block;
+    cursor: pointer;
+    width: 130px;
+    height: 46px;
+
+    &__bg {
+      display: block;
+      height: 100%;
+    }
+  }
+}
+
+.qqloginRow {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.registerSuccessView {
+  &__t {
+    color: #333;
+    line-height: 70px;
+    padding-top: 10px;
+    font-size: 24px;
+  }
+
+  &__r {
+    font-size: 18px;
+    color: #666;
+    line-height: 24px;
+  }
+
+  &__loginbtn {
+    width: 110px;
+    height: 40px;
+    margin: 20px auto 0;
+    text-indent: -99999px;
+    cursor: pointer;
+
+    @include defaultBrighten;
+  }
+
+  &__b {
+    line-height: 30px;
+    color: #999;
+  }
+
+  &__desc {
+    margin-top: 5px;
+  }
+
+  object {
+    height: 40px;
+    width: 97px;
+  }
+}
+
+.relativeGame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+
+  &__l {
+    position: absolute;
+    left: 20px;
+  }
+
+  &__r {
+    position: absolute;
+    right: 20px;
+  }
+}
+
+.relativeGameItem {
+  width: 100px;
+  height: 59px;
+  float: left;
+  margin-right: 3px;
+
+  &--aobi {
+    background-image: url(images/aobi.png);
+  }
+
+  &--aola {
+    background-image: url(images/aola.png);
+  }
+
+  &--lds {
+    background-image: url(images/lds.png);
+  }
+
+  &--aoya {
+    background-image: url(images/aoya.png);
+  }
+
+  &--aoqi {
+    background-image: url(images/aoqi.png);
+  }
+
+  &--pja {
+    background-image: url(images/pja.png);
+  }
+
+  &--aoyi {
+    background-image: url(images/aoyi.png);
+    width: 170px;
+    height: 88px;
+    margin-left: 5px;
+  }
+}
+
 /*
 manager:page,pop
 */
-.managertype__page{
-  &,& body,#pageRoot{
-    width:100%;height:100%;
+.managertype__page {
+  &, & body, #pageRoot {
+    width: 100%;
+    height: 100%;
+  }
+
+  #pageRoot {
+    background-position: top center;
+    background-repeat: no-repeat;
   }
 }
-.type_page_container{
+
+.type_page_container {
   font-family: "Microsoft Yahei";
-  width:100%;
-  height:100%;
-  &__td{
-    border:0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  &__td {
+    border: 0;
   }
-  &__box{
-  width:500px;
-  margin:0 auto;
+
+  &__box {
+    width: 700px;
+    margin: 54px auto 0;
+    z-index: 2;
+    position: relative;
+  }
+
+  &__content {
+    width: 392px;
+    margin: 0 auto;
   }
 }
+
 /*
 mix: views in manager style
 */
-.type_page_container{
-  .oauthQQFrame{
+.type_page_container {
+  .oauthQQFrame {
     width: 450px;
     height: 370px;
     border: 0;

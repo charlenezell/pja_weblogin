@@ -18,9 +18,9 @@ module.exports={
   render: function(duoduoId,password) {
     return `
       <div class="registerSuccessView">
-        <div class="registerSuccess__t">注册成功</div>
-        <div class="registerSuccessView__r">你的多多号:</div>
-        <div class="registerSuccessView__r">你的密码:</div>
+        <div class="registerSuccessView__t">注册成功</div>
+        <div class="registerSuccessView__r">你的多多号:${duoduoId}</div>
+        <div class="registerSuccessView__r">你的密码:${password}</div>
         <div class="registerSuccessView__loginbtn">马上登陆</div>
         <div class="registerSuccessView__b">
           <div class="registerSuccessView__desc">怕忘记多多号？保存账号信息到桌面吧~</div>

@@ -1,7 +1,7 @@
 module.exports={
     render:function({tofill,word,target}){
         return `
-        <div class="formlo01">
+        <div class="formlo01 formlo01--prefillItem">
           <div class="formlo01__l"></div><div class="formlo01__r">
           <div data-target="${target}" data-word="${word}" class="prefillItem" data-fill="${tofill}">${word}</div>
           </div>
@@ -22,7 +22,7 @@ module.exports={
     changeState:function(id){
       let target=$(`.prefillItem[data-target=#${id}]`);
       if(target.length>0){
-        target.addClass("prefillItem--clickable").text(`[${$(target).data("word")}]`);
+        target.addClass("prefillItem--clickable").text(`【${$(target).data("fill")}】`);
       }
     }
 }

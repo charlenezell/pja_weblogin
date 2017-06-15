@@ -1,11 +1,11 @@
 let da =require("../da.es6");
 let {placeholder}=require("../util.es6");
 module.exports= {
-    render:function({cname,name,tips,rule,type}){
+    render:function({cname,name,tips,rule,hide=false,id=""}){
         return `
-          <div class="codeItem formlo01">
+          <div class="codeItem formlo01" style="${hide?'display:none':''}" id="${id}">
             <div class="codeItem__label formlo01__l">${cname}</div>
-            <div class="codeItem__input formlo01__r"><input type="text" name="${name}" id="" placeholder="${tips}" data-validaterule="${rule}"/><img src="${da.getImgSrc()}" alt="" class="codeItem__img"/><span href="" class="codeItem__changeBtn">换一张</span></div>
+            <div class="codeItem__input formlo01__r"><input type="text" name="${name}" placeholder="${tips}" data-validaterule="${rule}"/><img src="${da.getImgSrc()}" alt="" class="codeItem__img"/><span href="" class="codeItem__changeBtn">换一张</span></div>
           </div>
         `
     },
@@ -14,6 +14,9 @@ module.exports= {
         $(".codeItem__img",root).attr("src",da.getImgSrc());
       });
       $(".codeItem__input input", root).on("blur", function(e,data) {
+        if(!$(this).is(":visible")){
+          return false;
+        }
         if(data&&data.isInit){return false;}
         let v = $(this).val();
         let {

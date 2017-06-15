@@ -1,4 +1,4 @@
-let qqloginbtn =require('./qqloginbtn.es6');
+let thirdpartyloginbtns = require('./thirdpartyloginbtns.es6');
 let fieldItem =require('./fieldItem01.es6');
 let forgetLink =require('./forgetlink.es6');
 let codeItem =require('./codeitem.es6');
@@ -8,7 +8,7 @@ let prefillItem =require('./prefillItem.es6');
 module.exports= {
     render:function({qqUrl,forgetUrl,ps,needRealName}){
         return `
-        ${qqloginbtn.render({url:qqUrl})}
+        ${thirdpartyloginbtns.render({url:qqUrl})}
         <form id="registerForm">
         ${fieldItem.render(
           {cname:"密码:",name:"gameName",tips:"请输入6-16位的密码",rule:"r_password",id:"r_password"})}
@@ -17,13 +17,13 @@ module.exports= {
         ${(function(){
           if(needRealName){
             return `${fieldItem.render(
-          {cname:"姓名:",name:"name",tips:"如:张三",rule:"r_name",id:"realName"})}
+          {cname:"姓名:",name:"name",tips:"如:张三",rule:"r_name",id:"realName",classname:"special01"})}
 
             ${prefillItem.render(
           {word:"如:张三",tofill:"张三",target:"#realName"})}
 
             ${fieldItem.render(
-          {cname:"身份证号:",name:"id",tips:"如:440206199707071051",rule:"r_id",id:"idCard"})}
+          {cname:"身份证号:",name:"id",tips:"如:440206199707071051",rule:"r_id",id:"idCard",classname:"special01"})}
 
             ${prefillItem.render(
           {word:"如:440206199707071051",tofill:"440206199707071051",target:"#idCard"})}
@@ -31,11 +31,11 @@ module.exports= {
           `;}
         })()}
         ${codeItem.render(
-          {cname:"验证码:",name:"code",tips:"请输入右面的数字",rule:"code"})}
+          {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code"})}
 
-        <div class="formlo01">
+        <div class="formlo01 formlo01--registerbtnrow">
           <div class="formlo01__l"></div><div class="formlo01__r">
-            <input type="submit" value="注册按钮" class="loginBtn" />
+            <input type="submit" value="注册按钮" class="registerBtn" />
             ${checkbox.render({
               word:"下次自动登录",
               key:"autologin"

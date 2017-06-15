@@ -73,7 +73,7 @@ export function clear() {
   return del(['deploy/*']);
 }
 
-const build_watch = gulp.series(script, style, watch);
+const build_watch = gulp.series(script, style,resource, watch);
 
 const build = gulp.series(clear, gulp.parallel(script, style), resource);
 

@@ -5,7 +5,7 @@ module.exports={
           <span class="checkboxItem">
             <input type="hidden" name="${key}" value="${defaultChecked?"true":"false"}"/>
             <span class="checkboxItem__w ${defaultChecked?'checkboxItem--on':''}">
-            <span class="checkboxItem__i">a</span><span class="checkboxItem__word">${word}</span>
+            <span class="checkboxItem__i"></span><span class="checkboxItem__word">${word}</span>
             </span>
           </span>
         `

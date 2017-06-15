@@ -1,5 +1,5 @@
 module.exports= {
     render:function({url}){
-        return `<a href="${url}" target="_blank">忘记密码</a>`
+        return `<a href="${url}" target="_blank" class="forgetlink">忘记密码</a>`
     }
 }

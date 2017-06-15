@@ -3,7 +3,7 @@ let v_login = require('../views/login.es6');
 let v_loginName = require('../views/loginName.es6');
 let v_qqlogin = require('../views/qqlogin.es6');
 let v_quicklogin = require('../views/quicklogin.es6');
-let v_qqloginbtn = require('../views/qqloginbtn.es6');
+let v_thirdpartyloginbtns = require('../views/thirdpartyloginbtns.es6');
 let v_register = require('../views/register.es6');
 let v_fieldItem = require('../views/fieldItem01.es6');
 let v_codeItem = require('../views/codeitem.es6');
@@ -25,10 +25,24 @@ let root, ps = $({});
 let option;
 let gameConfig;
 let vm = {};
-
+window.ggg=ps;
 
 function pageAlert(data) {
-  alert(data);
+  let box=$(".type_page_container__box").find(".type_page_container__box__alert")
+  if(box.length<=0){
+    $(`<table class="type_page_container__box__alert"><tr><td class="type_page_container__box__alert__ctn">
+      <div class="type_page_container__box__alert__txt">
+
+      </div>
+      </td></tr>
+      </table>`).appendTo(".type_page_container__box");
+    box=$(".type_page_container__box").find(".type_page_container__box__alert")
+  }
+  box.height($(".type_page_container__box").outerHeight()).find(".type_page_container__box__alert__txt").text(data);
+  box.show();
+  setTimeout(()=>{
+    box.hide();
+  },1000)
 }
 
 function goBackLoginSuccess(loginSuccessType) {
@@ -62,16 +76,93 @@ ps.on("cDispatch", function (e, data) {
   }
 });
 
+function injectGameJSONStyle(){
+$('head').append(`
+<style>
+  #pageRoot{
+    background-image: url(${__gameConfig.bgImgUrl});
+  }
+  .tabView__item__bg--login{
+      background-image: url(${__gameConfig.tabloginImg});
+  }
+  .tabView__item--on .tabView__item__bg--login{
+      background-image: url(${__gameConfig.tabloginImg_on});
+  }
+  .tabView__item__bg--loginname{
+      background-image: url(${__gameConfig.tabloginNameImg});
+  }
+  .tabView__item--on .tabView__item__bg--loginname{
+      background-image: url(${__gameConfig.tabloginNameImg_on});
+  }
+  .tabView__item__bg--register{
+      background-image: url(${__gameConfig.tabregisterImg});
+  }
+  .tabView__item--on .tabView__item__bg--register{
+      background-image: url(${__gameConfig.tabregisterImg_on});
+  }
+  .xExtendbg__head{
+    background-image: url(${__gameConfig.boxTopImgUrl});
+  }
+  .xExtendbg__body{
+   background-image: url(${__gameConfig.boxRepeatImgUrl});
+  }
+  .xExtendbg__foot{
+   background-image: url(${__gameConfig.boxBottomImgUrl});
+  }
+  .loginBtn{
+    background-image: url(${__gameConfig.btnloginImg});
+  }
+  .registerBtn{
+    background-image: url(${__gameConfig.btnregister});
+  }
+  .registerSuccessView__loginbtn{
+    background-image: url(${__gameConfig.btnloginnowImg});
+  }
+  .prefillItem,.forgetlink,.quickloginBtm__registerbtn,.quickloginBtm__loginbtn,.quickLoginItem__id{
+    color:${__gameConfig.mainColor||"#666"};
+  }
+</style>
+  `)
+}
+
+function injectGameCustomStyle(){
+
+}
 
 /*入口*/
 function init(_gameConfig, _option) {
 
+  injectGameJSONStyle();
+  injectGameCustomStyle();
+
   $("html").addClass("managertype__page");
   gameConfig = _gameConfig
   option = _option;
-  $(option.root || "body").append(`<table class="type_page_container"><tr><td class="type_page_container__td">
-  <div class="type_page_container__box"></div>
+
+  let _root=$(option.root || "body");
+
+  _root.append(`<table class="type_page_container"><tr><td class="type_page_container__td">
+  <div class="type_page_container__box">
+
+  </div>
     </td></tr></table>`);
+  if (option.gameName != "pja") { //百田网不需要游戏名登录
+    $(".type_page_container__td",_root).prepend(`
+      <div class="relativeGame">
+        <div class="relativeGame__l">
+          <a target="_blank" href="http://aobi.100bt.com/" class="relativeGameItem relativeGameItem--aobi"></a>
+          <a target="_blank" href="http://aola.100bt.com/" class="relativeGameItem relativeGameItem--aola"></a>
+          <a target="_blank" href="http://lds.100bt.com/" class="relativeGameItem relativeGameItem--lds"></a>
+          <a target="_blank" href="http://aoya.100bt.com/" class="relativeGameItem relativeGameItem--aoya"></a>
+          <a target="_blank" href="http://aoqi.100bt.com/" class="relativeGameItem relativeGameItem--aoqi"></a>
+          <a target="_blank" href="http://aoyi.100bt.com/" class="relativeGameItem relativeGameItem--aoyi"></a>
+        </div>
+        <div class="relativeGame__r">
+          <div class="relativeGameItem relativeGameItem--pja"></div>
+        </div>
+      </div>
+      `)
+  }
   root = $(".type_page_container__box");
   //可以直接初始化对应的界面，不传action时候为智能判断模式
   let curAction = option.action || getActionByJudge();
@@ -89,7 +180,7 @@ function renderView() {
   } else if (vm.state == "login") {
     st("intoLogin");
     renderLoginView();
-  } else if (vm.state == "loginName") {
+  } else if (vm.state == "loginname") {
     st("intoLoginName");
     renderLoginNameView();
   } else if (vm.state == "quicklogin") {
@@ -105,7 +196,7 @@ function renderTabView() {
 
   let menuList = [{
     name: "游戏名登录",
-    action: "loginName"
+    action: "loginname"
   }, {
     name: "普通登录",
     action: "login"
@@ -116,10 +207,14 @@ function renderTabView() {
   if (option.gameName == "pja") { //百田网不需要游戏名登录
     menubar.shift();
   }
-  return v_tab.render({
+  return `
+  <div class="xExtendbg__head">
+  ${v_tab.render({
     list: menuList,
     index: vm.tabIndex
-  })
+  })}
+  </div>
+  `
 }
 
 /*EventBinding*/
@@ -130,8 +225,8 @@ function bindTab() {
   });
 }
 
-function bindQQLoginBtn() {
-  v_qqloginbtn.bind(root, {
+function bind3rdpartyLoginBtn() {
+  v_thirdpartyloginbtns.bind(root, {
     ps
   });
 }
@@ -151,7 +246,7 @@ function bindInputEvent() {
 
 function bindRegisterView() {
   bindTab();
-  bindQQLoginBtn();
+  bind3rdpartyLoginBtn();
   bindInputEvent();
   prefillItem.bind(root);
   v_checkbox.bind(root);
@@ -192,7 +287,7 @@ function bindqqloginView() {
 
 function bindLoginView() {
   bindTab();
-  bindQQLoginBtn();
+  bind3rdpartyLoginBtn();
   bindInputEvent();
   v_checkbox.bind(root);
   let form = root.find("form");
@@ -210,6 +305,9 @@ function bindLoginView() {
             type: "loginSuccess",
             loginSuccessType: "login"
           });
+        }else if(data.code==-1){
+          $("#validCode").show().find("input").blur();
+          $("#validCode").find("img").click();
         }
       });
     }
@@ -224,7 +322,7 @@ function bindQuickLoginView() {
 
 function bindLoginNameView() {
   bindTab();
-  bindQQLoginBtn();
+  bind3rdpartyLoginBtn();
   bindInputEvent();
   v_checkbox.bind(root);
   let form = root.find("form");
@@ -255,11 +353,17 @@ function bindLoginNameView() {
 }
 
 /*PanelRender*/
+
 function renderRegisterView() {
   da.checkRealNameNeeded().then(data => {
     root.html(`
       ${renderTabView()}
+      <div class="xExtendbg__body">
+      <div class="type_page_container__content">
       ${v_register.render({qqUrl:gameConfig.qqbtnUrl,ps,needRealName:data.need})}
+      </div>
+      </div>
+      <div class="xExtendbg__foot"></div>
     `)
   })
   bindRegisterView();
@@ -267,42 +371,56 @@ function renderRegisterView() {
 
 
 function renderLoginView() {
-  da.checkCodeNeeded().then(data => {
+  // da.checkCodeNeeded().then(data => {
     root.html(`
     ${renderTabView()}
+    <div class="xExtendbg__body">
     <div class="type_page_container__content">
-    ${v_login.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:data.need,ps})}
+    ${v_login.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:true,ps})}
     </div>
+    </div>
+    <div class="xExtendbg__foot"></div>
   `)
     bindLoginView();
-  });
+  // });
 }
 
 function renderLoginNameView() {
-  da.checkCodeNeeded().then(data => {
+  // da.checkCodeNeeded().then(data => {
     root.html(`
       ${renderTabView()}
+      <div class="xExtendbg__body">
       <div class="type_page_container__content">
-      ${v_loginName.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:data.need,ps})}
+      ${v_loginName.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:true,ps})}
       </div>
+      </div>
+      <div class="xExtendbg__foot"></div>
     `)
     bindLoginNameView();
-  });
+  // });
 }
 
 function renderQQLoginView() {
   root.html(`
    ${renderTabView()}
-   <div class="type_page_container__content">
+   <div class="xExtendbg__body">
    <iframe class="oauthQQFrame" src="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101361466&redirect_uri=http%3A%2F%2Faccount.9aoduo.com%2Fqq%2Fqqlogincallback.action%3Fop%3Dcallback%2526referer%253Dhttp%253A%252F%252Fmy.100bt.com%252Fuc%252FqqCallback.html%25253FgId%25253D999%252526refer%25253Dhttp%25253A%25252F%25252Faola.100bt.com%25252Fshuafa%25252F0list_yabilianji.html&response_type=code&state=deecf136d1d4ee581a2128ad164ba81a&scope=get_user_info"></iframe>
    </div>
+   <div class="xExtendbg__foot"></div>
    `);
   bindqqloginView();
 }
 
 function renderQuickLoginView() {
   root.html(`
+    <div class="xExtendbg__head">
+      <div class="quickLoginHeader">使用已有账号快速进入${__gameConfig.name}</div>
+    </div>
+    <div class="xExtendbg__body">
     ${v_quicklogin.render()}
+    </div>
+    <div class="xExtendbg__foot"></div>
+
   `)
   bindQuickLoginView();
 }
@@ -311,10 +429,14 @@ function renderQuickLoginView() {
 function renderRegisterSuccessView(duoduoId, password) { //先做注册页面回来再集成注册成功
   root.html(`
     ${renderTabView()}
+    <div class="xExtendbg__body">
     <div class="type_page_container__content">
       ${v_registerSuccess.render(duoduoId,password)}
     </div>
+    </div>
+    <div class="xExtendbg__foot"></div>
   `);
+   bindTab();
   v_registerSuccess.bind(root,{ps});
 }
 
