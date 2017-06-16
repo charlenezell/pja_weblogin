@@ -4,12 +4,12 @@ let forgetLink = require('./forgetlink.es6');
 let checkbox = require('./checkboxItem.es6');
 let codeItem = require('./codeitem.es6');
 module.exports={
-    render:function({qqUrl,forgetUrl,needCode,ps}){
+    render:function({qqUrl,forgetUrl,needCode,ps,duoduoId}){
         return `
         ${thirdpartyloginbtns.render({url:qqUrl})}
         <form id="loginForm">
         ${fieldItem.render(
-          {cname:"多多号:",name:"duoduoid",tips:"请输入多多号",rule:"l_duoduoid"})}
+          {cname:"多多号:",name:"duoduoid",tips:"请输入多多号",rule:"l_duoduoid",value:duoduoId})}
         ${fieldItem.render(
           {cname:"密码:",name:"password",tips:"请输入密码",rule:"l_password",isPassword:true})}
         ${codeItem.render(

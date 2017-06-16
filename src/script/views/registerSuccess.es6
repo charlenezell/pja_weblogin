@@ -32,8 +32,7 @@ module.exports={
   bind: function(root,{ps}) {
     root.find(".registerSuccessView__loginbtn").click(function(){
       ps.trigger("cDispatch",{
-        type:"loginSuccess",
-        loginSuccessType:"register"
+        type:"loginSuccess"
       })
     });
   }

@@ -1,5 +1,6 @@
 let {
-  getHistoryList
+  getHistoryList,
+  st
 } = require("../util.es6");
 let env = require('../env.es6');
 let da = require("../da.es6");
@@ -31,14 +32,35 @@ module.exports = {
         token,
         duoduoid
       } = $(this).data();
-      da.loginToken(duoduoid, token, window.__option.gameName).then(data => {
-        if (data.code == 0) {
-          ps.trigger("cDispatch", {
-            type: "loginSuccess",
-            loginSuccessType: "quickLogin"
-          });
-        }
-      });
+      if(!token){
+        ps.trigger("cDispatch", {
+          action: "login",
+          type: "changeView",
+          index: env.actionToTabMap["login"],
+          duoduoId:duoduoid//带duoduo号登陆
+        })
+      }else{
+        st("startQuickLogin",duoduoid);
+        da.loginToken(duoduoid, token, window.__option.gameName).then(data => {
+          if (data.resultCode.code == 0) {
+            st("quickLoginSuccess")
+            ps.trigger("cDispatch", {
+              type: "loginSuccess"
+            });
+          }else{
+            st("quickLoginFail",data.resultCode.detail);
+            if(data.resultCode.code==-14){
+              ps.trigger("cDispatch", {
+                action: "login",
+                type: "changeView",
+                index: env.actionToTabMap["login"],
+                duoduoId:duoduoid//带duoduo号登陆
+              })
+            }
+          }
+        });
+      }
+
     });
     root.find(".quickloginBtm__registerbtn").click(function () {
       ps.trigger("cDispatch", {

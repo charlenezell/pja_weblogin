@@ -7,10 +7,13 @@ module.exports = {
   bind: function (root, {
     ps
   }) {
-    window.qqloginCallback = function () {
+    window.qqloginCallback = function (duoduoId,isNewUser) {
+      if(isNewUser){
+        btWebLogin.util.st("qqLoginNewUser",duoduoId);
+      }
+      btWebLogin.util.st("qqLoginSuccess",duoduoId);
       ps.trigger("cDispatch", {
-        type: "loginSuccess",
-        loginSuccessType: "qqlogin"
+        type: "loginSuccess"
       });
     }
     root.find(".qqloginBtn").on("click", function (e) {
@@ -29,8 +32,7 @@ module.exports = {
       //   w.close();
       //   if (data.loginSuccess) {
       //     ps.trigger("cDispatch", {
-      //       type: "loginSuccess",
-      //       loginSuccessType: "qq"
+      //       type: "loginSuccess"
       //     });
       //   } else {
 

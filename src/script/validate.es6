@@ -12,7 +12,7 @@ let  {ValidateItem} =require("./util.es6");
       return new ValidateItem(data, "多多号").isNumber().notEmpty();
     },
     code:function(data){
-      return new ValidateItem(data, "验证码").isNumber().max(4).min(4).notEmpty();
+      return new ValidateItem(data, "验证码").notEmpty();
     },
     r_password:function(data){
       return new ValidateItem(data, "密码").strongEnough().notEmpty();

@@ -216,20 +216,92 @@ exports.ValidateItem.prototype = {...exports.ValidateItem.prototype,
       return this;
     }
   };
+  function getEventId(stType){
 
-module.exports.st=function st (stType,type){
-  //
-  console.log("send Stastic:",stType,type);
-  return $.Deferred().resolve();
-//   统计需求
-//  普通登录页面访问用户数（初始化调用）1
-//  普通登录页面成功登录用户数（登录时候调用）2
-//  游戏名登录页面访问用户数（初始化时调用）3
-//  游戏名登录页面成功登录用户数（登录时调用）4
-//  快速注册页面访问用户数（初始化调用）5
-//  快速注册页面成功注册用户数（注册时调用）6
-//  快速登录页面的访问用户数（初始化调用）7
-//  经过快速登录页面成功登录的用户数（登陆时候调用）8
+    let m={
+      "intoLogin":"2001",
+      "intoLoginName":"2004",
+      "intoRegister":"2007",
+      "intoQuickLogin":"2010",
+      "intoQQLogin":"2017",
+
+      "startlogin":"2002",
+      "startloginName":"2005",
+      "startQuickLogin":"2011",
+      "startRegister":"2008",
+
+      "loginSuccess":"2003",
+      "loginNameSuccess":"2006",
+      "registerSuccess":"2009",
+      "quickLoginSuccess":"2012",
+      "qqLoginSuccess":"2018",
+      "loginFail":"2013",
+      "loginNameFail":"2014",
+      "registerFail":"2015",
+      "quickLoginFail":"2016",
+
+      "qqLoginNewUser":"2019"
+    };
+
+    // 2001  用户访问普通登陆页面事件
+    // 2002  用户在普通登陆页面提交登陆请求事件
+    // 2003  用户在普通登陆页面登陆成功事件
+    // 2004  用户访问游戏名登陆页面事件
+    // 2005  用户在游戏名登陆页面提交登陆请求事件
+    // 2006  用户在游戏名登陆页面登陆成功事件
+    // 2007  用户访问快速注册页面事件
+    // 2008  用户在快速注册页面提交注册事件
+    // 2009  用户在快速注册页面注册成功事件
+    // 2010  用户访问快速登陆页面事件
+    // 2011  用户在快速登陆页面提交登陆请求事件
+    // 2012  用户在快速登陆页面登陆成功事件
+    // 2013  用户在普通登陆页面登陆失败事件
+    // 2014  用户在游戏名登陆页面登陆失败事件
+    // 2015  用户在快速注册页面注册失败事件
+    // 2016  用户在快速登陆页面登陆失败事件
+    // 2017  用户在单点登陆页面点击qq登陆按钮事件
+    // 2018  用户点击qq登陆按钮后登陆成功事件
+    // 2019  用户点击qq登陆按钮后分配了新的多多号事件
+
+    return m[stType];
+  }
+
+function getIdentityId(){
+  return cookie("d_identityid_auth_sid");
+}
+
+
+function getSrc(){
+  return cookie("d_src_auth_sid");
+}
+
+function getCreateTime(){
+  return cookie("d_createtime_auth_sid");
+}
+
+module.exports.st=function st (stType,extraData){
+
+
+  var json = [{
+    'topicId': '10010',
+    'topicName': 'ods_web_event_record',
+    'eventTime': moment().tz("PRC").format("YYYY-MM-DD HH:mm:ss"),
+    'identityId': getIdentityId(),
+    'eventId': getEventId(stType),
+    'ip': '',
+    'province': '',
+    'city': '',
+    'colA': getSrc(),
+    'colB': extraData||"",
+    'colC': getCreateTime(),
+    'dataAppId': __gameConfig.dataAppId
+  }];
+  console.log("send Stastic:",stType,getEventId(stType));
+  return $.post("http://account.100bt.com/newHttpPushData/",{
+    data: JSON.stringify(json)
+  });
+
+
 }
 
 function cookie(key, value, options) {
@@ -283,29 +355,17 @@ function tokenStrToObj(v){
 }
 
 let getHistoryList=function(){
-  //这里会取出公共写的历史记录cookie,提取出前三个，同时如果有当前已成功登录的状态信息则合并进去历史记录里面
-  //eg 历史是["duoduoId1-token1","duoduoId2","duoduoId3-token2"]
-  //当前有登陆状态的是duoduoId1则不做处理，如果是duoduoId2的话就吧token传入快速登录的界面让该用户可以因为有登陆态而直接登陆（尽管用户没有勾选自动登录的选项）
+
   let history=cookie("his_auth_sid");
-  let current=cookie("web_auth_sid");
+  // let current=cookie("web_auth_sid");
   if(!$.trim(history)){//没有历史应该也不会有当前登录态
       return false;
   }
-  if(current){
-    current=tokenStrToObj(current);
-  }
+  // if(current){
+  //   current=tokenStrToObj(current);
+  // }
 
-  let historyList=$.map(history.split(";"),v=>{//登录态肯定是在历史记录里面所以只需要遍历历史记录替换一下空token位当前态的token即可
-    let c=tokenStrToObj(v);
-    if(current.duoduoId==c.duoduoId&&!c.token){
-      return {
-        duoduoId:c.duoduoId,
-        token:current.token
-      };
-    }else{
-      return c;
-    }
-  });
+  let historyList=$.map(history.split(";"),v=>tokenStrToObj(v));
 
   return historyList;
 

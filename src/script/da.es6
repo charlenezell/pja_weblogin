@@ -3,9 +3,15 @@ module.exports={
     let d=$.Deferred();
     console.log(password,autologin,name,id,code);
     d.resolve({
-      code:0,
-      duoduoId:Math.random()*10000,
-      password:password
+      resultCode:{
+        code:-11,
+        detail:"请输入正确验证码"
+      },
+      value:{
+        code:0,
+        duoduoId:Math.random()*10000,
+        password:password
+      }
     });
     return d.promise();
   },
@@ -16,8 +22,12 @@ module.exports={
     //   code:0
     // });
     d.resolve({
-      code:-1,
-      detail:"请输入正确验证码"
+      resultCode:{
+        code:-11,
+        detail:"请输入正确验证码"
+      },value:{
+        needCaptcha:true
+      }
     });
     return d.promise();
   },
@@ -25,7 +35,10 @@ module.exports={
     let d=$.Deferred();
     console.log(duoduoId,token,gameId);
     d.resolve({
-      code:0
+      resultCode:{
+        code:0
+        // code:-14
+      }
     });
     return d.promise();
   },

@@ -31,7 +31,7 @@ module.exports= {
           `;}
         })()}
         ${codeItem.render(
-          {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code"})}
+          {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code",id:"validCode"})}
 
         <div class="formlo01 formlo01--registerbtnrow">
           <div class="formlo01__l"></div><div class="formlo01__r">
@@ -45,11 +45,13 @@ module.exports= {
         <div class="registerView__protocos">
           ${checkbox.render({
               word:`我同意<a href="${window.__gameConfig.serviceProtocoUrl}" target="_blank">用户服务协议</a>`,
-              key:"serviceProtocoCheck"
+              key:"serviceProtocoCheck",
+              defaultChecked:true
             })}
           ${checkbox.render({
               word:`我同意<a href="${window.__gameConfig.promiseUrl}" target="_blank">拒绝沉迷承诺书</a>`,
-              key:"promiseCheck"
+              key:"promiseCheck",
+              defaultChecked:true
             })}
         </div>
         </form>

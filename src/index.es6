@@ -6,14 +6,18 @@ let util =require('./script/util.es6');
 function resolveGameNameToConfig(gameName) {
   return ({
     "aoya": {
-      configUrl: "aoya.json"
+      configUrl: "aoya/loginconfig.js"
     }
   })[gameName];
 }
 
 function queryGameData(gameName) {
   let c = resolveGameNameToConfig(gameName);
-  return $.get(c.configUrl);
+  let d=$.Deferred();
+  $.getScript(c.configUrl,()=>{
+    d.resolve()
+  });
+  return d.promise()
 }
 
 function init(option) {
@@ -22,10 +26,10 @@ function init(option) {
     gameName
   } = option;
   window.__option=option;
-  queryGameData(gameName).then((data) => {
-    window.__gameConfig=data;
+  queryGameData(gameName).then(() => {
+    window.__gameConfig=window.loginconfig;
     if (mode == "page") {
-      pageModeContainer.init(data,option);
+      pageModeContainer.init(window.loginconfig,option);
     } else {
       throw new Error("mode 不受支持");
     }

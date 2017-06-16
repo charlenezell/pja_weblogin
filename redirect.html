@@ -1,21 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-  <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>百田网</title>
+    <!--[if lt IE 9]>
+    <script src="http://resource.a0bi.com/resource/js/lib/html5shiv.min.js"></script>
+    <![endif]-->
+    <script src="http://resource.a0bi.com/resource/js/lib/json2.js"></script>
+    <script src="/game/auth/deploy/script/lib/moment.min.js"></script>
+    <script src="/game/auth/deploy/script/lib/moment-timezone-with-data-2012-2022.min.js"></script>
+    <script type="text/javascript" src="http://resource.a0bi.com/resource/js/lib/jquery-modernizr-require.min.js?v=20170505"></script>
+    <script src="/game/auth/deploy/index.js"></script>
 </head>
 <body>
-这个页面写cookie传递登陆状态给游戏通过cookies
+请稍后登陆正在完成中...
 <script type="text/javascript">
-  try{
-    setTimeout(function(){
-      opener.__qqloginSuccess({
-        loginSuccess:true
-      });
-    },2000);
-  }catch(e){
-
-  }
+    //这个可能是个jsp
+  var qs=btWebLogin.util.qs.getSearchQuery(location.href);
+  var isNewUser=true;//志敏要告诉我是否新用户，用户id是什么
+  var duoduoId=3123121321
+    top.qqloginCallback(duoduoId,isNewUser);
 </script>
 </body>
 </html>

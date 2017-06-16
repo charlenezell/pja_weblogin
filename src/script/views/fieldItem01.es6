@@ -1,10 +1,10 @@
 let {placeholder}=require("../util.es6");
 module.exports= {
-    render:function({cname,name,tips,rule,type,id="",target="",classname="",noautocomplete=false,isPassword=false}){
+    render:function({cname,name,tips,rule,type,id="",target="",classname="",noautocomplete=false,isPassword=false,value=""}){
         return `
           <div class="fieldItem01 formlo01 ${classname?`fieldItem01--${classname}`:''}">
             <div class="fieldItem01__label formlo01__l">${cname}</div>
-            <div class="fieldItem01__input formlo01__r ${type?`fieldItem01__input--${type}`:'fieldItem01__input--long'}"><input type="${isPassword?'password':'text'}" name="${name}" id="${id}" data-fieldItem_pairtarget="${target}" placeholder="${tips}" data-validaterule="${rule}" ${noautocomplete?'autocomplete="off"':''}/></div>
+            <div class="fieldItem01__input formlo01__r ${type?`fieldItem01__input--${type}`:'fieldItem01__input--long'}"><input type="${isPassword?'password':'text'}" name="${name}" id="${id}" data-fieldItem_pairtarget="${target}" placeholder="${tips}" data-validaterule="${rule}" ${noautocomplete?'autocomplete="off"':''} value="${value}"/></div>
           </div>
         `
     },

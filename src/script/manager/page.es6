@@ -45,15 +45,15 @@ function pageAlert(data) {
   },1000)
 }
 
-function goBackLoginSuccess(loginSuccessType) {
+function goBackLoginSuccess() {
   // 登陆成功后的出口
   if (option.gameName == "pja") {
 
   } else {
-    st("loginSuccess", loginSuccessType).then(function () {
-      // location.href = gameConfig.gameCallbackUrl;
+    setTimeout(()=>{
       console.log("jump back success");
-    });
+      // location.href=document.referrer;//直接跳回原来的页面
+    },1500);
   }
 }
 
@@ -62,9 +62,10 @@ ps.on("cDispatch", function (e, data) {
   if (data.type == "changeView") {
     vm.state = data.action;
     vm.tabIndex = data.index;
+    vm.duoduoId=data.duoduoId||"";
     renderView();
   } else if (data.type == "loginSuccess") {
-    goBackLoginSuccess(data.loginSuccessType);
+    goBackLoginSuccess();
   } else if (data.type == "changeValidState") {
     vm.isValid = data.valid;
   } else if (data.type == "registerSuccess") {
@@ -79,7 +80,13 @@ ps.on("cDispatch", function (e, data) {
     pageAlert(data.content);
   }
 });
-
+function getImgFromConfig(data,key){
+  let g={};
+  $.each(data.relativeGameList,(k,v)=>{
+    g[v.name]=v
+  });
+  return g[key]||{};
+}
 function injectGameJSONStyle(){
   //游戏json配置的页面注入样式，仅写入必要的样式
 $('head').append(`
@@ -126,6 +133,45 @@ $('head').append(`
   .prefillItem,.forgetlink,.quickloginBtm__registerbtn,.quickloginBtm__loginbtn,.quickLoginItem__id{
     color:${__gameConfig.mainColor||"#666"};
   }
+  .relativeGameItem--aobi {
+    background-image: url(${getImgFromConfig(__gameConfig,"aobi").img});
+  }
+
+  .relativeGameItem--aola {
+    background-image: url(${getImgFromConfig(__gameConfig,"aola").img});
+  }
+
+  .relativeGameItem--lds {
+    background-image: url(${getImgFromConfig(__gameConfig,"lds").img});
+  }
+
+  .relativeGameItem--aoya {
+    background-image: url(${getImgFromConfig(__gameConfig,"aoya").img});
+  }
+
+  .relativeGameItem--aoqi {
+    background-image: url(${getImgFromConfig(__gameConfig,"aoqi").img});
+  }
+
+  .relativeGameItem--aoyi {
+    background-image: url(${getImgFromConfig(__gameConfig,"aoyi").img});
+  }
+  .codeItem__label, .fieldItem01__label{
+    ${__gameConfig.inputLabelColor?`color:${__gameConfig.inputLabelColor};`:''}
+  }
+  .codeItem__input input, .fieldItem01__input input{
+    ${__gameConfig.inputDefaultBorderColor?`border-color:${__gameConfig.inputDefaultBorderColor};`:''}
+    ${__gameConfig.inputDefaultBGColor?`background-color:${__gameConfig.inputDefaultBGColor};`:''}
+    ${__gameConfig.inputDefaultFontColor?`color:${__gameConfig.inputDefaultFontColor};`:''}
+  }
+  .codeItem__input--error input, .fieldItem01__input--error input{
+   ${__gameConfig.inputErrorBorderColor?`border-color:${__gameConfig.inputErrorBorderColor};`:''}
+   ${__gameConfig.inputErrorBGColor?`background-color:${__gameConfig.inputErrorBGColor};`:''}
+   ${__gameConfig.inputErrorFontColor?`color:${__gameConfig.inputErrorFontColor};`:''}
+  }
+  .qqloginRow {
+    ${__gameConfig.thirdpartyLoginRowBorderColor?`border-color:${__gameConfig.thirdpartyLoginRowBorderColor};`:''}
+  }
 </style>
   `)
 }
@@ -157,12 +203,11 @@ function init(_gameConfig, _option) {
     $(".type_page_container__td",_root).prepend(`
       <div class="relativeGame">
         <div class="relativeGame__l">
-          <a target="_blank" href="http://aobi.100bt.com/" class="relativeGameItem relativeGameItem--aobi"></a>
-          <a target="_blank" href="http://aola.100bt.com/" class="relativeGameItem relativeGameItem--aola"></a>
-          <a target="_blank" href="http://lds.100bt.com/" class="relativeGameItem relativeGameItem--lds"></a>
-          <a target="_blank" href="http://aoya.100bt.com/" class="relativeGameItem relativeGameItem--aoya"></a>
-          <a target="_blank" href="http://aoqi.100bt.com/" class="relativeGameItem relativeGameItem--aoqi"></a>
-          <a target="_blank" href="http://aoyi.100bt.com/" class="relativeGameItem relativeGameItem--aoyi"></a>
+          ${$.map(__gameConfig.relativeGameList,v=>{
+            return `
+            <a target="_blank" href="${v.link}" class="relativeGameItem relativeGameItem--${v.name}"></a>
+            `
+          }).join("")}
         </div>
         <div class="relativeGame__r">
           <a  target="_blank" href="http://www.100bt.com/" class="relativeGameItem relativeGameItem--pja"></a>
@@ -176,7 +221,8 @@ function init(_gameConfig, _option) {
   ps.trigger("cDispatch", {
     action: curAction,
     type: "changeView",
-    index: env.actionToTabMap[curAction]
+    index: env.actionToTabMap[curAction],
+    duoduoId:option.data.duoduoId
   })
 }
 
@@ -276,13 +322,21 @@ function bindRegisterView() {
         pageAlert("请同意拒绝沉迷承诺书");
         return false;
       }
+      st("startRegister")
       da.register(postData.password, postData.autologin, postData.name, postData.id, postData.code).done((data) => {
-        if (data.code == 0) {
+        if (data.resultCode.code == 0) {
+          st("registerSuccess","返回了多多号");//todo
           ps.trigger("cDispatch", {
             type: "registerSuccess",
             duoduoId: data.duoduoId,
             password: data.password
           })
+        }else{
+          st("registerFail",data.resultCode.detail);//todo
+          if(data.resultCode.code==-11){
+            $("#validCode").find("input").val("");
+           pageAlert(data.resultCode.detail);
+          }
         }
       });
 
@@ -308,15 +362,25 @@ function bindLoginView() {
       $.each(form.serializeArray(), (k, v) => {
         postData[v.name] = v.value;
       });
+      st("startlogin",postData.duoduoId);
       da.login(postData.duoduoid, postData.password, postData.autologin, window.__option.gameName, postData.code).done(data => {
-        if (data.code == 0) {
+        if (data.resultCode.code == 0) {
+          st("loginSuccess");
           ps.trigger("cDispatch", {
-            type: "loginSuccess",
-            loginSuccessType: "login"
+            type: "loginSuccess"
           });
-        }else if(data.code==-1){
-          $("#validCode").show().find("input").blur();
-          $("#validCode").find("img").click();
+        }else{
+          st("loginFail",data.resultCode.detail);//todo
+          if(data.value.needCaptcha){
+            $("#validCode").show().find("input");
+            $("#validCode").find("img").click();
+            if(data.resultCode.code==-11){
+              $("#validCode").show().find("input").val("");
+             pageAlert(data.resultCode.detail);
+            }
+          }else{
+            $("#validCode").hide().find("input");
+          }
         }
       });
     }
@@ -343,16 +407,31 @@ function bindLoginNameView() {
       $.each(form.serializeArray(), (k, v) => {
         postData[v.name] = v.value;
       });
+
       da.checkGameName(gameConfig.checkgameNameRequest, postData.gameName).done(function (data) {
         if (data.returnCode != 0) {
           pageAlert(data.returnDetail);
+          st("loginNameFail",data.returnDetail);
         } else {
+          st("startloginName",data.duoduoId);
           da.login(data.duoduoId, postData.password, postData.autologin, window.__option.gameName, postData.code).done(data => {
-            if (data.code == 0) {
+            if (data.resultCode.code == 0) {
+              st("loginNameSuccess")
               ps.trigger("cDispatch", {
-                type: "loginSuccess",
-                loginSuccessType: "loginName"
+                type: "loginSuccess"
               });
+            }else{
+              st("loginNameFail",data.resultCode.detail);//todo
+              if(data.value.needCaptcha){
+                $("#validCode").show().find("input");
+                $("#validCode").find("img").click();
+                if(data.resultCode.code==-11){
+                  $("#validCode").show().find("input").val("");
+                 pageAlert(data.resultCode.detail);
+                }
+              }else{
+                $("#validCode").hide().find("input");
+              }
             }
           });;
         }
@@ -387,7 +466,7 @@ function renderLoginView() {
     ${renderTabView()}
     <div class="xExtendbg__body">
     <div class="type_page_container__content">
-    ${v_login.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:true,ps})}
+    ${v_login.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:false,ps,duoduoId:vm.duoduoId})}
     </div>
     </div>
     <div class="xExtendbg__foot"></div>
@@ -402,7 +481,7 @@ function renderLoginNameView() {
       ${renderTabView()}
       <div class="xExtendbg__body">
       <div class="type_page_container__content">
-      ${v_loginName.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:true,ps})}
+      ${v_loginName.render({qqUrl:gameConfig.qqbtnUrl,forgetUrl:gameConfig.forgetUrl,needCode:false,ps})}
       </div>
       </div>
       <div class="xExtendbg__foot"></div>

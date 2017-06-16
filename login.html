@@ -4,12 +4,15 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>百田网</title>
     <link type="text/css" href="http://www.100bt.com/resource/style/css.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/deploy/style/index.css">
+    <link rel="stylesheet" type="text/css" href="/game/auth/deploy/style/index.css">
     <!--[if lt IE 9]>
     <script src="http://resource.a0bi.com/resource/js/lib/html5shiv.min.js"></script>
     <![endif]-->
+    <script src="http://resource.a0bi.com/resource/js/lib/json2.js"></script>
+    <script src="/game/auth/deploy/script/lib/moment.min.js"></script>
+    <script src="/game/auth/deploy/script/lib/moment-timezone-with-data-2012-2022.min.js"></script>
     <script type="text/javascript" src="http://resource.a0bi.com/resource/js/lib/jquery-modernizr-require.min.js?v=20170505"></script>
-    <script src="http://localhost:3000/deploy/index.js"></script>
+    <script src="/game/auth/deploy/index.js"></script>
 </head>
 <body>
 <div id="pageRoot"></div>
@@ -19,7 +22,10 @@
     mode:"page",//用页面方式展示页面
     gameName:qs.gameName,
     action:qs.action,
-    root:"#pageRoot"//不写的话就在body初始化
+    root:"#pageRoot",//不写的话就在body初始化
+    data:{
+        duoduoId:qs.duoduoid
+    }
   });
 </script>
 </body>

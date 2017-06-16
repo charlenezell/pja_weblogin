@@ -34,7 +34,7 @@ export function script() {
     .pipe(gulp.dest(destPath));
 }
 export function resource() {
-  return gulp.src("./src/**/*.{png,jpg,gif}").pipe(gulp.dest(destPath));
+  return gulp.src("./src/**/*.{png,jpg,gif,js}").pipe(gulp.dest(destPath));
 }
 export function style() {
   var _pipe = gulp.src("./src/**/*.scss")

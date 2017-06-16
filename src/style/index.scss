@@ -442,35 +442,8 @@
   margin-right: 3px;
   position: relative;
   @include glasseffect01;
-  &--aobi {
-    background-image: url(images/aobi.png);
-  }
-
-  &--aola {
-    background-image: url(images/aola.png);
-  }
-
-  &--lds {
-    background-image: url(images/lds.png);
-  }
-
-  &--aoya {
-    background-image: url(images/aoya.png);
-  }
-
-  &--aoqi {
-    background-image: url(images/aoqi.png);
-  }
-
   &--pja {
     background-image: url(images/pja.png);
-  }
-
-  &--aoyi {
-    background-image: url(images/aoyi.png);
-    width: 170px;
-    height: 88px;
-    margin-left: 5px;
   }
 }
 
