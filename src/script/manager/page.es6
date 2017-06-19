@@ -336,7 +336,10 @@ function bindLoginView() {
   v_checkbox.bind(root);
   let form = root.find("form");
   form.submit(function (e) {
-    $(".fieldItem01__input input ,.codeItem__input input").blur();
+    // debugger;
+    $(".fieldItem01__input input ,.codeItem__input input").trigger("blur",{
+      fromSubmit:true
+    });
     e.preventDefault();
     if (vm.isValid) {
       let postData = {};
