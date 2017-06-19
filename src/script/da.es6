@@ -4,7 +4,8 @@ module.exports={
     console.log(password,autologin,name,id,code);
     d.resolve({
       resultCode:{
-        code:-11,
+        // code:-11,
+        code:0,
         detail:"请输入正确验证码"
       },
       value:{
@@ -36,8 +37,8 @@ module.exports={
     console.log(duoduoId,token,gameId);
     d.resolve({
       resultCode:{
-        code:0
-        // code:-14
+        // code:0
+        code:-14
       }
     });
     return d.promise();

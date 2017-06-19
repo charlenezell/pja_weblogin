@@ -328,8 +328,8 @@ function bindRegisterView() {
           st("registerSuccess","返回了多多号");//todo
           ps.trigger("cDispatch", {
             type: "registerSuccess",
-            duoduoId: data.duoduoId,
-            password: data.password
+            duoduoId: data.value.duoduoId,
+            password: data.value.password
           })
         }else{
           st("registerFail",data.resultCode.detail);//todo

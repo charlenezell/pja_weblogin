@@ -46,6 +46,11 @@ var loginconfig={
   //这里是页面上部的左侧的相关游戏推荐列表，链接图片顺序都是游戏自己定下，最多是支持六个，特殊的样式则游戏自己在customStyleUrl里面实现，如附件css所示
   "relativeGameList":[
     {
+      "link":"http://aoya.100bt.com",
+      "img":"http://localhost:3000/game/auth/aoya/aoya.png",
+      "name":"aoya"
+    },
+    {
       "link":"http://aobi.100bt.com",
       "img":"http://localhost:3000/game/auth/aoya/aobi.png",
       "name":"aobi"
@@ -66,10 +71,6 @@ var loginconfig={
       "name":"lds"
     },
      {
-      "link":"http://aoya.100bt.com",
-      "img":"http://localhost:3000/game/auth/aoya/aoya.png",
-      "name":"aoya"
-    },{
       "link":"http://aoyi.100bt.com",
       "img":"http://localhost:3000/game/auth/aoya/aoyi.png",
       "name":"aoyi"
