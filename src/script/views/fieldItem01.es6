@@ -60,7 +60,9 @@ module.exports= {
         $(this).closest(".fieldItem01__input").removeClass("fieldItem01__input--error");
       })
       $(".fieldItem01__input").each(function(){
-        placeholder($(this).find('input'));
+        if($(this).find('input').is("[type!=password]")){
+          placeholder($(this).find('input'));
+        }
       });
     }
 }

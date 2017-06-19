@@ -28,6 +28,7 @@ let vm = {};
 window.ggg=ps;
 
 function pageAlert(data) {
+  // debugger;
   let box=$(".type_page_container__box").find(".type_page_container__box__alert")
   if(box.length<=0){
     $(`<table class="type_page_container__box__alert"><tr><td class="type_page_container__box__alert__ctn">
@@ -38,7 +39,7 @@ function pageAlert(data) {
       </table>`).appendTo(".type_page_container__box");
     box=$(".type_page_container__box").find(".type_page_container__box__alert")
   }
-  box.height($(".type_page_container__box").outerHeight()).find(".type_page_container__box__alert__txt").text(data);
+  box.height($(".type_page_container__box").outerHeight()).find(".type_page_container__box__alert__txt").text(data||'');
   box.show();
   setTimeout(()=>{
     box.hide();

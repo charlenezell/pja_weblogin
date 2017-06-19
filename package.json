@@ -38,7 +38,6 @@
     "gulp-cli": "github:gulpjs/gulp-cli",
     "gulp-rev": "^7.1.2",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^1.5.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"

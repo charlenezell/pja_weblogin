@@ -2,9 +2,9 @@ module.exports={
     render:function(option={}){
         let {defaultChecked,word,key}={defaultChecked:false,...option};
         return `
-          <span class="checkboxItem">
+          <span class="checkboxItem ${defaultChecked?'checkboxItem--on':''}">
             <input type="hidden" name="${key}" value="${defaultChecked?"true":"false"}"/>
-            <span class="checkboxItem__w ${defaultChecked?'checkboxItem--on':''}">
+            <span class="checkboxItem__w">
             <span class="checkboxItem__i"></span><span class="checkboxItem__word">${word}</span>
             </span>
           </span>

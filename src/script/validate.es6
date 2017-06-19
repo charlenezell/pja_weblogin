@@ -6,7 +6,8 @@ let  {ValidateItem} =require("./util.es6");
       return new ValidateItem(data, "游戏名").notEmpty();
     },
     l_password: function(data) {
-      return new ValidateItem(data, "密码").max(16).min(6);
+      // debugger;
+      return new ValidateItem(data, "密码").max(16).min(6).notEmpty();
     },
     l_duoduoid: function(data) {
       return new ValidateItem(data, "多多号").isNumber().notEmpty();
@@ -15,7 +16,7 @@ let  {ValidateItem} =require("./util.es6");
       return new ValidateItem(data, "验证码").notEmpty();
     },
     r_password:function(data){
-      return new ValidateItem(data, "密码").strongEnough().notEmpty();
+      return new ValidateItem(data, "密码").strongEnough().max(16).min(6).notEmpty();
     },
     r_password2:function(data,data2){
       return new ValidateItem(data, "密码").sameAs(pairData).notEmpty();

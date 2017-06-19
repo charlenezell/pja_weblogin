@@ -7,7 +7,6 @@ import babelify from "babelify";
 import deumdify from 'deumdify';
 import autoprefixer from "gulp-autoprefixer";
 import sass from "gulp-sass";
-import sourcemaps from "gulp-sourcemaps";
 import del from "del";
 import cleanCSS from 'gulp-clean-css';
 
@@ -37,10 +36,7 @@ export function resource() {
   return gulp.src("./src/**/*.{png,jpg,gif,js,swf}").pipe(gulp.dest(destPath));
 }
 export function style() {
-  var _pipe = gulp.src("./src/**/*.scss")
-    .pipe(sourcemaps.init({
-      sourceRoot:"/src/style/"
-    }))
+  return  gulp.src("./src/**/*.scss")
     .pipe(
       sass({
           includePaths: ['./src/style/lib/']
@@ -50,13 +46,12 @@ export function style() {
     .pipe(autoprefixer({
       browsers: ['> 1%', 'IE 6-8']
     }))
-    .pipe(cleanCSS({compatibility: 'ie6'}));
-  if (!process.env.prod) {
-    _pipe = _pipe.pipe(sourcemaps.write())
-  }
-
-
-  return _pipe.pipe(gulp.dest(destPath));
+    .pipe(cleanCSS({
+         compatibility: "ie6,ie7,ie8,+selectors.ie7Hack,+properties.iePrefixHack",
+          roundingPrecision:-1,
+          processImport:false
+    }))
+    .pipe(gulp.dest(destPath));
 }
 
 export function watch() {
