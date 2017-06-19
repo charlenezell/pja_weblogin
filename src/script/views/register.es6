@@ -28,7 +28,9 @@ module.exports= {
             ${prefillItem.render(
           {word:"如:440206199707071051",tofill:"440206199707071051",target:"#idCard"})}
 
-          `;}
+          `;}else{
+            return "";
+          }
         })()}
         ${codeItem.render(
           {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code",id:"validCode"})}

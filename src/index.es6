@@ -6,7 +6,7 @@ let util =require('./script/util.es6');
 function resolveGameNameToConfig(gameName) {
   return ({
     "aoya": {
-      configUrl: "aoya/loginconfig.js"
+      configUrl: "http://aoya.100bt.com/play/weblogin/loginconfig.js"
     }
   })[gameName];
 }

@@ -51,8 +51,8 @@ function goBackLoginSuccess() {
 
   } else {
     setTimeout(()=>{
-      console.log("jump back success");
-      // location.href=document.referrer;//直接跳回原来的页面
+      // console.log("jump back success");
+      location.href=document.referrer;//直接跳回原来的页面
     },1500);
   }
 }
@@ -71,6 +71,7 @@ ps.on("cDispatch", function (e, data) {
   } else if (data.type == "registerSuccess") {
     window.globalRegisterSuccessDuoDuoId = data.duoduoId;
     window.globalRegisterSuccessPassword = data.password;
+    window.globalRegisterSuccessAutologin = data.autoLogin;
     renderRegisterSuccessView(data.duoduoId, data.password);
   } else if (data.type == "fieldItem01focus") {
     if (data.id == "realName" || data.id == "idCard") {
@@ -80,13 +81,13 @@ ps.on("cDispatch", function (e, data) {
     pageAlert(data.content);
   }
 });
-function getImgFromConfig(data,key){
-  let g={};
-  $.each(data.relativeGameList,(k,v)=>{
-    g[v.name]=v
-  });
-  return g[key]||{};
-}
+// function getImgFromConfig(data,key){
+//   let g={};
+//   $.each(data.relativeGameList,(k,v)=>{
+//     g[v.name]=v
+//   });
+//   return g[key]||{};
+// }
 function injectGameJSONStyle(){
   //游戏json配置的页面注入样式，仅写入必要的样式
 $('head').append(`
@@ -132,29 +133,6 @@ $('head').append(`
   }
   .prefillItem,.forgetlink,.quickloginBtm__registerbtn,.quickloginBtm__loginbtn,.quickLoginItem__id{
     color:${__gameConfig.mainColor||"#666"};
-  }
-  .relativeGameItem--aobi {
-    background-image: url(${getImgFromConfig(__gameConfig,"aobi").img});
-  }
-
-  .relativeGameItem--aola {
-    background-image: url(${getImgFromConfig(__gameConfig,"aola").img});
-  }
-
-  .relativeGameItem--lds {
-    background-image: url(${getImgFromConfig(__gameConfig,"lds").img});
-  }
-
-  .relativeGameItem--aoya {
-    background-image: url(${getImgFromConfig(__gameConfig,"aoya").img});
-  }
-
-  .relativeGameItem--aoqi {
-    background-image: url(${getImgFromConfig(__gameConfig,"aoqi").img});
-  }
-
-  .relativeGameItem--aoyi {
-    background-image: url(${getImgFromConfig(__gameConfig,"aoyi").img});
   }
   .codeItem__label, .fieldItem01__label{
     ${__gameConfig.inputLabelColor?`color:${__gameConfig.inputLabelColor};`:''}
@@ -205,7 +183,7 @@ function init(_gameConfig, _option) {
         <div class="relativeGame__l">
           ${$.map(__gameConfig.relativeGameList,v=>{
             return `
-            <a target="_blank" href="${v.link}" class="relativeGameItem relativeGameItem--${v.name}"></a>
+            <a target="_blank" href="${v.link}" class="relativeGameItem relativeGameItem--${v.name}"><img src="${v.img}" alt="" /></a>
             `
           }).join("")}
         </div>
@@ -217,7 +195,7 @@ function init(_gameConfig, _option) {
   }
   root = $(".type_page_container__box");
   //可以直接初始化对应的界面，不传action时候为智能判断模式
-  let curAction = option.action || getActionByJudge();
+  let curAction = option.action || getActionByJudge()||"register";
   ps.trigger("cDispatch", {
     action: curAction,
     type: "changeView",
@@ -329,13 +307,15 @@ function bindRegisterView() {
           ps.trigger("cDispatch", {
             type: "registerSuccess",
             duoduoId: data.value.duoduoId,
-            password: data.value.password
+            password: postData.password,
+            autologin:postData.autoLogin
           })
         }else{
           st("registerFail",data.resultCode.detail);//todo
+          pageAlert(data.resultCode.detail);
           if(data.resultCode.code==-11){
             $("#validCode").find("input").val("");
-           pageAlert(data.resultCode.detail);
+            $("#validCode").find("img").click();
           }
         }
       });
@@ -370,13 +350,17 @@ function bindLoginView() {
             type: "loginSuccess"
           });
         }else{
+          pageAlert(data.resultCode.detail);
           st("loginFail",data.resultCode.detail);//todo
+          if(data.resultCode.code==-12){
+            $("#login_duoduoid,#login_password").val("");
+          }
           if(data.value.needCaptcha){
             $("#validCode").show().find("input");
             $("#validCode").find("img").click();
             if(data.resultCode.code==-11){
               $("#validCode").show().find("input").val("");
-             pageAlert(data.resultCode.detail);
+              $("#validCode").find("img").click();
             }
           }else{
             $("#validCode").hide().find("input");
@@ -409,9 +393,9 @@ function bindLoginNameView() {
       });
 
       da.checkGameName(gameConfig.checkgameNameRequest, postData.gameName).done(function (data) {
-        if (data.returnCode != 0) {
-          pageAlert(data.returnDetail);
-          st("loginNameFail",data.returnDetail);
+        if (data.code != 0) {
+          pageAlert(data.detail);
+          st("loginNameFail",data.detail);
         } else {
           st("startloginName",data.duoduoId);
           da.login(data.duoduoId, postData.password, postData.autologin, window.__option.gameName, postData.code).done(data => {
@@ -422,12 +406,13 @@ function bindLoginNameView() {
               });
             }else{
               st("loginNameFail",data.resultCode.detail);//todo
+              pageAlert(data.resultCode.detail);
               if(data.value.needCaptcha){
                 $("#validCode").show().find("input");
                 $("#validCode").find("img").click();
                 if(data.resultCode.code==-11){
                   $("#validCode").show().find("input").val("");
-                 pageAlert(data.resultCode.detail);
+                  $("#validCode").find("img").click();
                 }
               }else{
                 $("#validCode").hide().find("input");
@@ -450,13 +435,16 @@ function renderRegisterView() {
       ${renderTabView()}
       <div class="xExtendbg__body">
       <div class="type_page_container__content">
-      ${v_register.render({qqUrl:gameConfig.qqbtnUrl,ps,needRealName:data.need})}
+      ${v_register.render({qqUrl:gameConfig.qqbtnUrl,ps,needRealName:(data.resultCode.code==0&&data.value.needIdCard?true:false)})}
       </div>
       </div>
       <div class="xExtendbg__foot"></div>
-    `)
+    `);
+    bindRegisterView();
+  }).fail(function(){
+    pageAlert("暂时不能打开注册页面，请稍后再试");
   })
-  bindRegisterView();
+
 }
 
 
@@ -490,11 +478,13 @@ function renderLoginNameView() {
   // });
 }
 
+
 function renderQQLoginView() {
+    // <iframe class="oauthQQFrame" src="/game/auth/redirect.html?duoduoId=123123123&isNewUser=true"></iframe>
   root.html(`
    ${renderTabView()}
    <div class="xExtendbg__body">
-   <iframe class="oauthQQFrame" src="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101361466&redirect_uri=http%3A%2F%2Faccount.9aoduo.com%2Fqq%2Fqqlogincallback.action%3Fop%3Dcallback%2526referer%253Dhttp%253A%252F%252Fmy.100bt.com%252Fuc%252FqqCallback.html%25253FgId%25253D999%252526refer%25253Dhttp%25253A%25252F%25252Faola.100bt.com%25252Fshuafa%25252F0list_yabilianji.html&response_type=code&state=deecf136d1d4ee581a2128ad164ba81a&scope=get_user_info"></iframe>
+   <iframe class="oauthQQFrame" src="${env.backendHost}/game/auth/commonqqlogin.action?gameId=${__gameConfig.serverGameId}&gameName=${__gameConfig.serverName}"></iframe>
    </div>
    <div class="xExtendbg__foot"></div>
    `);

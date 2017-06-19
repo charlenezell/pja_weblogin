@@ -66,8 +66,9 @@
   padding: 8px 0;
   margin:0 10px;
   &:hover{
-    @include bgrgba(black, 0.05);
-    border-color:#ccc;
+    background:url(images/quickloginbg.png);
+    // @include bgrgba(black, 0.05);
+    // border-color:#ccc;
   }
   &__game,&__id{
     display: block;
@@ -85,31 +86,31 @@
     position: relative;
     @include glasseffect01;
   }
-    &--aobi &__img{
-      background-image: url(images/ent_pja.png);
+    &--1 &__img{
+      background-image: url(images/ent_1.png);
     }
 
-    &--aola &__img{
-      background-image: url(images/ent_pja.png);
+    &--2 &__img{
+      background-image: url(images/ent_2.png);
     }
 
-    &--aoqi &__img{
-      background-image: url(images/ent_pja.png);
+    &--3 &__img{
+      background-image: url(images/ent_3.png);
     }
 
-    &--aoya &__img{
-      background-image: url(images/ent_pja.png);
+    &--4 &__img{
+      background-image: url(images/ent_4.png);
     }
 
-    &--aoyi &__img{
-      background-image: url(images/ent_pja.png);
+    &--5 &__img{
+      background-image: url(images/ent_5.png);
     }
 
-    &--lds &__img{
-      background-image: url(images/ent_pja.png);
+    &--6 &__img{
+      background-image: url(images/ent_6.png);
     }
 
-    &--pja &__img{
+    &--999 &__img{
       background-image: url(images/ent_pja.png);
     }
 }

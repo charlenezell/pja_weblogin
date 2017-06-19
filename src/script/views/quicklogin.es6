@@ -11,7 +11,7 @@ module.exports = {
         ${$.map(getHistoryList(),v=>{
 
           return `
-            <span class="quickLoginItem quickLoginItem--${env.gameIdToGameName[v.gameId]}" data-token="${v.token}" data-duoduoid="${v.duoduoId}">
+            <span class="quickLoginItem quickLoginItem--${v.gameId}" data-token="${v.token}" data-duoduoid="${v.duoduoId}">
               <span class="quickLoginItem__img"></span>
               <span class="quickLoginItem__id">${v.duoduoId}</span>
               <span class="quickLoginItem__game">在玩${v.gameName}</span>
@@ -49,14 +49,19 @@ module.exports = {
             });
           }else{
             st("quickLoginFail",data.resultCode.detail);
-            if(data.resultCode.code==-14){
+            /*if(data.resultCode.code==-14){*///失败都跳出到登陆界面
               ps.trigger("cDispatch", {
                 action: "login",
                 type: "changeView",
                 index: env.actionToTabMap["login"],
                 duoduoId:duoduoid//带duoduo号登陆
               })
-            }
+            /*}*//*else{
+              ps.trigger("cDispatch", {
+                type: "commonAlert",
+                content:data.resultCode.detail
+              })
+            }*/
           }
         });
       }

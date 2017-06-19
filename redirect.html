@@ -6,9 +6,11 @@
     <!--[if lt IE 9]>
     <script src="http://resource.a0bi.com/resource/js/lib/html5shiv.min.js"></script>
     <![endif]-->
+    <!--
     <script src="http://resource.a0bi.com/resource/js/lib/json2.js"></script>
     <script src="/game/auth/deploy/script/lib/moment.min.js"></script>
     <script src="/game/auth/deploy/script/lib/moment-timezone-with-data-2012-2022.min.js"></script>
+    -->
     <script type="text/javascript" src="http://resource.a0bi.com/resource/js/lib/jquery-modernizr-require.min.js?v=20170505"></script>
     <script src="/game/auth/deploy/index.js"></script>
 </head>
@@ -17,9 +19,10 @@
 <script type="text/javascript">
     //这个可能是个jsp
   var qs=btWebLogin.util.qs.getSearchQuery(location.href);
-  var isNewUser=true;//志敏要告诉我是否新用户，用户id是什么
-  var duoduoId=3123121321
-    top.qqloginCallback(duoduoId,isNewUser);
+  // var isNewUser=true;//志敏要告诉我是否新用户，用户id是什么
+  // var duoduoId=3123121321
+  // console.log(qs.duoduoId,qs.isNewUser);
+    top.qqloginCallback(qs.duoduoId,qs.isNewUser);
 </script>
 </body>
 </html>

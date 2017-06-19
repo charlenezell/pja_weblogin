@@ -43,7 +43,7 @@ module.exports= {
         }
       }).on("focus", function(e,data) {
         if(data&&data.nocheck){
-          console.log("nocheck");
+          // console.log("nocheck");
           return false;
         }
         ps.trigger("cDispatch", {

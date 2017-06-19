@@ -296,8 +296,10 @@ module.exports.st=function st (stType,extraData){
     'colC': getCreateTime(),
     'dataAppId': __gameConfig.dataAppId
   }];
-  console.log("send Stastic:",stType,getEventId(stType));
-  return $.post("http://account.100bt.com/newHttpPushData/",{
+  try{
+    console.log("send Stastic:",stType,getEventId(stType));
+  }catch(e){}
+  return $.post("http://account.100bt.com/newHttpPushData",{
     data: JSON.stringify(json)
   });
 

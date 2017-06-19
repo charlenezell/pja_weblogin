@@ -9,9 +9,9 @@ module.exports={
         ${thirdpartyloginbtns.render({url:qqUrl})}
         <form id="loginForm">
         ${fieldItem.render(
-          {cname:"多多号:",name:"duoduoid",tips:"请输入多多号",rule:"l_duoduoid",value:duoduoId})}
+          {cname:"多多号:",name:"duoduoid",tips:"请输入多多号",rule:"l_duoduoid",value:duoduoId,id:"login_duoduoid"})}
         ${fieldItem.render(
-          {cname:"密码:",name:"password",tips:"请输入密码",rule:"l_password",isPassword:true})}
+          {cname:"密码:",name:"password",tips:"请输入密码",rule:"l_password",isPassword:true,id:"login_password"})}
         ${codeItem.render(
           {cname:"验证码:",name:"code",tips:"请输入右面数字",rule:"code",hide:needCode?false:true,id:"validCode"})}
         <div class="formlo01">
