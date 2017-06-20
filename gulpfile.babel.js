@@ -9,7 +9,8 @@ import autoprefixer from "gulp-autoprefixer";
 import sass from "gulp-sass";
 import del from "del";
 import cleanCSS from 'gulp-clean-css';
-
+var versionAppend = require('gulp-version-append');
+// import revUrlhash from 'gulp-rev-urlhash';
 const destPath = "./deploy";
 const cssminConfig = {
   compatibility: "ie6,ie7,ie8,+selectors.ie7Hack,+properties.iePrefixHack",
@@ -29,7 +30,11 @@ export function script() {
   return b.bundle()
     .pipe(source('index.js'))
     .pipe(buffer())
-    // .pipe(uglify())
+    .pipe(uglify({
+      output: {
+        ascii_only: true
+      }
+}))
     .pipe(gulp.dest(destPath));
 }
 export function resource() {
@@ -45,6 +50,9 @@ export function style() {
     )
     .pipe(autoprefixer({
       browsers: ['> 1%', 'IE 6-8']
+    }))
+    .pipe(versionAppend(["png","jpg","gif"],{
+      appendType:'timestamp'
     }))
     .pipe(cleanCSS({
          compatibility: "ie6,ie7,ie8,+selectors.ie7Hack,+properties.iePrefixHack",

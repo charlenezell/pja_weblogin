@@ -71,7 +71,7 @@
   padding: 8px 0;
   margin:0 10px;
   &:hover{
-    background:url(images/quickloginbg.png);
+    background:url(images/quickloginbg.png?v=@version@);
     // @include bgrgba(black, 0.05);
     // border-color:#ccc;
   }
@@ -92,31 +92,31 @@
     @include glasseffect01;
   }
     &--1 &__img{
-      background-image: url(images/ent_1.png);
+      background-image: url(images/ent_1.png?v=@version@);
     }
 
     &--2 &__img{
-      background-image: url(images/ent_2.png);
+      background-image: url(images/ent_2.png?v=@version@);
     }
 
     &--3 &__img{
-      background-image: url(images/ent_3.png);
+      background-image: url(images/ent_3.png?v=@version@);
     }
 
     &--4 &__img{
-      background-image: url(images/ent_4.png);
+      background-image: url(images/ent_4.png?v=@version@);
     }
 
     &--5 &__img{
-      background-image: url(images/ent_5.png);
+      background-image: url(images/ent_5.png?v=@version@);
     }
 
     &--6 &__img{
-      background-image: url(images/ent_6.png);
+      background-image: url(images/ent_6.png?v=@version@);
     }
 
     &--999 &__img{
-      background-image: url(images/ent_pja.png);
+      background-image: url(images/ent_pja.png?v=@version@);
     }
 }
 
@@ -137,7 +137,7 @@
     margin: 0 auto;
     padding: 20px 0;
     color: #fff;
-    background-image:url(./images/alp60.png);
+    background-image:url(./images/alp60.png?v=@version@);
     // @include bgrgba(black, 0.6);
   }
 }
@@ -199,7 +199,7 @@
   color: #666;
   margin-bottom: 15px;
   .qqloginBtn {
-    background-image: url(images/qqlogin.png);
+    background-image: url(images/qqlogin.png?v=@version@);
     width: 100px;
     height: 30px;
     display: inline-block;
@@ -245,11 +245,11 @@
     vertical-align: middle;
     width: 16px;
     height: 16px;
-    background-image: url(images/checkbox.png);
+    background-image: url(images/checkbox.png?v=@version@);
   }
 
   &--on &__i {
-    background-image: url(images/checkbox_h.png);
+    background-image: url(images/checkbox_h.png?v=@version@);
     animation:zoom 200ms ease;
   }
 
@@ -302,9 +302,12 @@
     text-indent: 5px;
     color: #666;
     z-index: 1;
+    font-size: 12px;
+
   }
-  &__input--error &__tips,&__input--empty &__tips{
+  &__input--error &__tips{
     display: block!important;
+    color:red;
   }
 
   &__input {
@@ -313,9 +316,9 @@
     border: 1px solid #ccc;
     background-color: #EFEFEF;
     &--error{
-      border: 1px solid red;
-      color: red;
-      background-color: #ffe9e9;
+      border: 1px solid red!important;
+      color: red!important;
+      background-color: #ffe9e9!important;
     }
     input {
       position: relative;
@@ -349,6 +352,7 @@
 .codeItem {
   &__input {
     position: relative;
+    width: 112px;
   }
 
   &__input input {
@@ -358,12 +362,12 @@
   }
 
   &__img {
-    float: left;
+    position: absolute;
+    // float: left;
     width: 70px;
     height: 34px;
     margin-left: 10px;
     cursor:pointer;
-    position: relative;
     z-index:1;
     &:hover{
       transition:200ms transform ease;
@@ -375,7 +379,7 @@
     position: absolute;
     left: 110px + 70px + 10px + 5px;
     line-height: 34px;
-
+    color:#666;
     @include toe;
 
     cursor: pointer;
@@ -447,7 +451,7 @@
 // 顶部相关游戏的样式
 .relativeGame {
   position: absolute;
-  top: 0;
+  top: 5px;
   left: 0;
   width: 100%;
   z-index: 1;
@@ -472,7 +476,7 @@
   position: relative;
   @include glasseffect01;
   &--pja {
-    background-image: url(images/pja.png);
+    background-image: url(images/pja.png?v=@version@);
   }
 }
 

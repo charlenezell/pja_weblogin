@@ -33,7 +33,7 @@ var loginconfig={
   // "inputDefaultFontColor":"blue",
   // "inputErrorBorderColor":"blue",
   // "inputErrorBGColor":"#0ff",
-  // "inputErrorFontColor":"red",
+  // "inputErrorFontColor":"yellow",
   //上面不填会用设计好的默认值
   //忘记密码的url
   "forgetUrl":"http://account.9aoduo.com/getbackpwd/getBackPwd.action?action=toinput",

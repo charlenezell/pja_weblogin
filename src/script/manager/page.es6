@@ -138,15 +138,19 @@ $('head').append(`
   .codeItem__label, .fieldItem01__label{
     ${__gameConfig.inputLabelColor?`color:${__gameConfig.inputLabelColor};`:''}
   }
-  .codeItem__input input, .fieldItem01__input input{
+  .codeItem__input, .fieldItem01__input{
     ${__gameConfig.inputDefaultBorderColor?`border-color:${__gameConfig.inputDefaultBorderColor};`:''}
     ${__gameConfig.inputDefaultBGColor?`background-color:${__gameConfig.inputDefaultBGColor};`:''}
+  }
+  .codeItem__tips,.fieldItem01__tips,.codeItem__input input, .fieldItem01__input input{
     ${__gameConfig.inputDefaultFontColor?`color:${__gameConfig.inputDefaultFontColor};`:''}
   }
-  .codeItem__input--error input, .fieldItem01__input--error input{
-   ${__gameConfig.inputErrorBorderColor?`border-color:${__gameConfig.inputErrorBorderColor};`:''}
-   ${__gameConfig.inputErrorBGColor?`background-color:${__gameConfig.inputErrorBGColor};`:''}
-   ${__gameConfig.inputErrorFontColor?`color:${__gameConfig.inputErrorFontColor};`:''}
+  .codeItem__input--error, .fieldItem01__input--error{
+   ${__gameConfig.inputErrorBorderColor?`border-color:${__gameConfig.inputErrorBorderColor}!important;`:''}
+   ${__gameConfig.inputErrorBGColor?`background-color:${__gameConfig.inputErrorBGColor}!important;`:''}
+  }
+  .codeItem__input--error .codeItem__tips, .fieldItem01__input--error .fieldItem01__tips{
+  ${__gameConfig.inputErrorFontColor?`color:${__gameConfig.inputErrorFontColor};`:''}
   }
   .qqloginRow {
     ${__gameConfig.thirdpartyLoginRowBorderColor?`border-color:${__gameConfig.thirdpartyLoginRowBorderColor};`:''}
@@ -286,7 +290,9 @@ function bindRegisterView() {
   v_checkbox.bind(root);
   let form = root.find("form");
   form.submit(function (e) {
-    $(".fieldItem01__input input ,.codeItem__input input").blur();
+    $(".fieldItem01__input input ,.codeItem__input input").trigger("blur",{
+      fromSubmit:true
+    });
     e.preventDefault();
     if (vm.isValid) {
       let postData = {};
@@ -304,7 +310,7 @@ function bindRegisterView() {
       st("startRegister")
       da.register(postData.password, postData.autologin, postData.name, postData.id, postData.code).done((data) => {
         if (data.resultCode.code == 0) {
-          st("registerSuccess","返回了多多号");//todo
+          st("registerSuccess",data.value.duoduoId);
           ps.trigger("cDispatch", {
             type: "registerSuccess",
             duoduoId: data.value.duoduoId,
@@ -312,7 +318,7 @@ function bindRegisterView() {
             autologin:postData.autoLogin
           })
         }else{
-          st("registerFail",data.resultCode.detail);//todo
+          st("registerFail",data.resultCode.detail);
           pageAlert(data.resultCode.detail);
           if(data.resultCode.code==-11){
             $("#validCode").find("input").val("");
@@ -355,7 +361,7 @@ function bindLoginView() {
           });
         }else{
           pageAlert(data.resultCode.detail);
-          st("loginFail",data.resultCode.detail);//todo
+          st("loginFail",data.resultCode.detail);
           if(data.resultCode.code==-12){
             $("#login_duoduoid,#login_password").val("");
           }
@@ -388,7 +394,9 @@ function bindLoginNameView() {
   v_checkbox.bind(root);
   let form = root.find("form");
   form.submit(function (e) {
-    $(".fieldItem01__input input ,.codeItem__input input").blur();
+    $(".fieldItem01__input input ,.codeItem__input input").trigger("blur",{
+      fromSubmit:true
+    });
     e.preventDefault();
     if (vm.isValid) {
       let postData = {};
@@ -409,7 +417,7 @@ function bindLoginNameView() {
                 type: "loginSuccess"
               });
             }else{
-              st("loginNameFail",data.resultCode.detail);//todo
+              st("loginNameFail",data.resultCode.detail);
               pageAlert(data.resultCode.detail);
               if(data.value.needCaptcha){
                 $("#validCode").show().find("input");

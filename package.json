@@ -42,5 +42,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-version-append": "^0.2.0"
+  }
 }

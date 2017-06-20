@@ -8,7 +8,7 @@ module.exports = {
   render: function () {
     return `
     <div class="quickLoginItemList">
-        ${$.map(getHistoryList(),v=>{
+        ${$.map(getHistoryList().slice(0,3),v=>{
 
           return `
             <span class="quickLoginItem quickLoginItem--${v.gameId}" data-token="${v.token}" data-duoduoid="${v.duoduoId}">
@@ -41,6 +41,10 @@ module.exports = {
         })
       }else{
         st("startQuickLogin",duoduoid);
+        ps.trigger("cDispatch",{
+          type:"commonAlert",
+          content:"正在尝试登陆请稍后..."
+        });
         da.loginToken(duoduoid, token, window.__option.gameName).then(data => {
           if (data.resultCode.code == 0) {
             st("quickLoginSuccess")

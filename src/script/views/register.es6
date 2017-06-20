@@ -23,7 +23,7 @@ module.exports= {
           {word:"如:张三",tofill:"张三",target:"#realName"})}
 
             ${fieldItem.render(
-          {cname:"身份证号:",name:"id",tips:"如:440206199707071051",rule:"r_id",id:"idCard",classname:"special01"})}
+          {cname:"身份证号:",name:"id",tips:"如:440206199707071051",rule:"r_id",id:"idCard",classname:"special01",noautocomplete:true})}
 
             ${prefillItem.render(
           {word:"如:440206199707071051",tofill:"440206199707071051",target:"#idCard"})}

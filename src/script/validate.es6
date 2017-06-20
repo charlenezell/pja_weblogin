@@ -16,10 +16,10 @@ let  {ValidateItem} =require("./util.es6");
       return new ValidateItem(data, "验证码").notEmpty();
     },
     r_password:function(data){
-      return new ValidateItem(data, "密码").strongEnough().max(16).min(6).notEmpty();
+      return new ValidateItem(data, "密码").strongEnough().isPassword().notEmpty();
     },
     r_password2:function(data,data2){
-      return new ValidateItem(data, "密码").sameAs(pairData).notEmpty();
+      return new ValidateItem(data, "密码").sameAs(pairData);
     },
     r_name:function(data){
       return new ValidateItem(data, "姓名").notEmpty();

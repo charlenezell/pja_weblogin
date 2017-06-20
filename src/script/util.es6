@@ -192,6 +192,18 @@ exports.ValidateItem.prototype = {...exports.ValidateItem.prototype,
       }
       return this;
     },
+    isPassword:function(){
+      function g(s) {
+        var p = /^[a-zA-Z0-9_]{6,16}$/;
+        return p.test(s);
+      }
+
+      if (!g(this.data)) {
+        this.status = false;
+        this.detail = `只能6-16位${this.fieldName}字母数字或下划线`;
+      }
+      return this;
+    },
     strongEnough: function() {
       var instance = new WeakPasswordChecker();
       if (instance.isWeak(this.data)) {
